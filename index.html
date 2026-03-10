@@ -249,30 +249,79 @@
         }
     }
 
-    // --- 퀴즈 로직 (기존 유지) ---
-    const quizData = [
-        { q: "교정적 정의 <br><br> 다음을 주장한 사상가는? <br> 형벌은 사람들이 유사한 범죄 행위를 하지 못 하도록 억제하는 것이다. 범죄에 대한 억제력의 측면에서 사형보다 종신 노역형이 더 효과적이다. (2021_06) ", a: ["칸트", "루소", "베카리아", "벤담"], cor: 2 },
-        { q: "교정적 정의 <br><br> 다음을 주장한 사상가는? <br> 누구나 일반 의지에 복종하기를 거부하는 자는 국가에 의해 강제를 당하게 된다. 국가는 모든 구성원의 생명 보존을 위해 존재하며, 사형도 같은 관점에서 다뤄진다. (2021_09) ", a: ["칸트", "루소", "베카리아", "벤담"], cor: 1 },
-        { q: "교정적 정의 <br><br> 다음을 주장한 사상가는? <br> 형벌은 범죄자가 처벌받을 행위를 의욕했기 때문에 가해져야 하며, 결코 어떤 다른 선을 촉진하기 위한 수단으로서 가해질 수 없다. (2021_수능) ", a: ["칸트", "루소", "베카리아", "벤담"], cor: 0 }
-    ];
+    <div id="quiz-page" class="page active">
+    <div class="container">
+        <div id="quiz-category-menu">
+            <h2>🎮 퀴즈 카테고리 선택</h2>
+            <p>풀고 싶은 주제를 골라주세요.</p>
+            <button class="nav-btn active" onclick="startQuiz('general')">🌍 상식 퀴즈</button>
+            <button class="nav-btn active" onclick="startQuiz('it')">💻 IT 퀴즈</button>
+            <button class="nav-btn active" onclick="startQuiz('fun')">🕹️ 넌센스 퀴즈</button>
+        </div>
 
+        <div id="quiz-game-area" style="display:none;">
+            <div id="quiz-area">
+                <h2 id="question">질문 로딩 중...</h2>
+                <div id="options"></div>
+            </div>
+            <div id="result-area" style="display:none;">
+                <h2>🎉 결과</h2>
+                <p id="score-text" style="font-size:24px;"></p>
+                <button onclick="location.reload()" class="nav-btn active">카테고리로 돌아가기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- 카테고리별 문제 데이터 ---
+    const allQuizzes = {
+        'general': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "제주"], cor: 0 },
+            { q: "태양계에서 가장 큰 행성은?", a: ["지구", "화성", "목성"], cor: 2 }
+        ],
+        'it': [
+            { q: "HTML에서 줄바꿈 태그는?", a: ["&lt;br&gt;", "&lt;p&gt;", "&lt;div&gt;"], cor: 0 },
+            { q: "GitHub Pages는 유료인가요?", a: ["네", "아니오"], cor: 1 }
+        ],
+        'fun': [
+            { q: "세상에서 가장 가난한 왕은?", a: ["최저임금", "설탕왕", "최저왕"], cor: 2 }
+        ]
+    };
+
+    let selectedQuiz = []; // 현재 선택된 문제 세트
     let currentIdx = 0;
     let score = 0;
+
+    // 퀴즈 시작 함수
+    function startQuiz(category) {
+        selectedQuiz = allQuizzes[category]; // 선택한 카테고리의 데이터 가져오기
+        currentIdx = 0;
+        score = 0;
+
+        // 화면 전환
+        document.getElementById('quiz-category-menu').style.display = 'none';
+        document.getElementById('quiz-game-area').style.display = 'block';
+        
+        loadQuiz();
+    }
 
     function loadQuiz() {
         const qElem = document.getElementById("question");
         const oElem = document.getElementById("options");
         oElem.innerHTML = "";
-        qElem.innerHTML = quizData[currentIdx].q;
+        
+        const currentData = selectedQuiz[currentIdx];
+        qElem.innerHTML = currentData.q;
 
-        quizData[currentIdx].a.forEach((opt, i) => {
+        currentData.a.forEach((opt, i) => {
             const btn = document.createElement("button");
             btn.className = "option-btn";
             btn.innerText = opt;
             btn.onclick = () => {
-                if(i === quizData[currentIdx].cor) score++;
+                if(i === currentData.cor) score++;
                 currentIdx++;
-                if(currentIdx < quizData.length) loadQuiz();
+                if(currentIdx < selectedQuiz.length) loadQuiz();
                 else showResult();
             };
             oElem.appendChild(btn);
@@ -282,10 +331,8 @@
     function showResult() {
         document.getElementById("quiz-area").style.display = "none";
         document.getElementById("result-area").style.display = "block";
-        document.getElementById("score-text").innerText = `${quizData.length}문제 중 ${score}개 정답!`;
+        document.getElementById("score-text").innerText = `${selectedQuiz.length}문제 중 ${score}개 정답!`;
     }
-
-    loadQuiz();
 </script>
 </body>
 </html>
