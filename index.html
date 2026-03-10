@@ -2,30 +2,97 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>생활과 윤리 2021학년도 복습 퀴즈(제시문)</title>
+    <title>퀴즈 & 개발자 센터</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; background: #f4f4f9; }
-        #quiz-container { background: white; padding: 30px; border-radius: 10px; shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; width: 80%; max-width: 500px; }
-        .option-btn { display: block; width: 100%; margin: 10px 0; padding: 10px; cursor: pointer; border: 1px solid #ddd; border-radius: 5px; background: #fff; transition: 0.3s; }
-        .option-btn:hover { background: #e2e2e2; }
-        #result { font-size: 24px; font-weight: bold; color: #333; }
+        body { font-family: 'Pretendard', sans-serif; text-align: center; padding: 20px; background: #f0f2f5; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; width: 90%; max-width: 600px; min-height: 300px; vertical-align: top; }
+        
+        /* 상단 메뉴 스타일 */
+        .nav-menu { margin-bottom: 20px; }
+        .nav-btn { padding: 10px 20px; margin: 0 5px; cursor: pointer; border: none; border-radius: 20px; background: #ddd; font-weight: bold; transition: 0.3s; }
+        .nav-btn.active { background: #4CAF50; color: white; }
+
+        /* 페이지 레이아웃 */
+        .page { display: none; }
+        .page.active { display: block; }
+
+        /* 로그인 & 문서 스타일 */
+        input { width: 70%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        .admin-content { text-align: left; background: #f9f9f9; padding: 15px; border-left: 5px solid #4CAF50; }
+        .option-btn { display: block; width: 100%; margin: 10px 0; padding: 12px; cursor: pointer; border: 1px solid #eee; border-radius: 8px; background: #fff; }
+        .option-btn:hover { background: #f0f0f0; }
     </style>
 </head>
 <body>
 
-<div id="quiz-container">
-    <div id="question-area">
-        <h2 id="question">질문이 여기에 표시됩니다.</h2>
-        <div id="options"></div>
+    <div class="nav-menu">
+        <button class="nav-btn active" onclick="showPage('quiz-page')">🎮 퀴즈 풀기</button>
+        <button class="nav-btn" onclick="showPage('admin-page')">👨‍💻 개발자 문서</button>
     </div>
-    <div id="result-area" style="display:none;">
-        <h2>결과</h2>
-        <p id="result"></p>
-        <button onclick="location.reload()">다시 풀기</button>
+
+    <div id="quiz-page" class="page active">
+        <div class="container">
+            <div id="quiz-area">
+                <h2 id="question">질문을 불러오는 중...</h2>
+                <div id="options"></div>
+            </div>
+            <div id="result-area" style="display:none;">
+                <h2>🎉 결과</h2>
+                <p id="score-text" style="font-size:24px;"></p>
+                <button onclick="location.reload()" class="nav-btn active">다시 풀기</button>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div id="admin-page" class="page">
+        <div class="container">
+            <div id="admin-login">
+                <h2>🔒 관리자 인증</h2>
+                <input type="text" id="adminId" placeholder="아이디"><br>
+                <input type="password" id="adminPw" placeholder="비밀번호"><br>
+                <button class="nav-btn active" onclick="unlockAdmin()">확인</button>
+            </div>
+            <div id="admin-data" style="display:none;">
+                <h2>📜 개발자 가이드</h2>
+                <div class="admin-content">
+                    <p><strong>버전:</strong> 1.0.2</p>
+                    <p><strong>수정 로그:</strong> innerHTML 적용 완료</p>
+                    <p><strong>정답표:</strong> 1번(0), 2번(1)</p>
+                    <p style="color:red;">* 주의: 이 페이지는 외부 유출 금지</p>
+                </div>
+                <button onclick="location.reload()" style="margin-top:20px;">로그아웃</button>
+            </div>
+        </div>
+    </div>
 
 <script>
+    // --- 설정 ---
+    const ADMIN_ID = "admin";
+    const ADMIN_PW = "1234";
+
+    // --- 페이지 전환 로직 ---
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        
+        document.getElementById(pageId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // --- 관리자 잠금 해제 ---
+    function unlockAdmin() {
+        const id = document.getElementById("adminId").value;
+        const pw = document.getElementById("adminPw").value;
+
+        if (id === ADMIN_ID && pw === ADMIN_PW) {
+            document.getElementById("admin-login").style.display = "none";
+            document.getElementById("admin-data").style.display = "block";
+        } else {
+            alert("권한이 없습니다.");
+        }
+    }
+
+    // --- 퀴즈 로직 (기존 유지) ---
     const quizData = [
         { q: "교정적 정의 <br><br> 다음을 주장한 사상가는? <br> 형벌은 사람들이 유사한 범죄 행위를 하지 못 하도록 억제하는 것이다. 범죄에 대한 억제력의 측면에서 사형보다 종신 노역형이 더 효과적이다. (2021_06) ", a: ["칸트", "루소", "베카리아", "벤담"], cor: 2 },
         { q: "교정적 정의 <br><br> 다음을 주장한 사상가는? <br> 누구나 일반 의지에 복종하기를 거부하는 자는 국가에 의해 강제를 당하게 된다. 국가는 모든 구성원의 생명 보존을 위해 존재하며, 사형도 같은 관점에서 다뤄진다. (2021_09) ", a: ["칸트", "루소", "베카리아", "벤담"], cor: 1 },
@@ -39,28 +106,26 @@
         const qElem = document.getElementById("question");
         const oElem = document.getElementById("options");
         oElem.innerHTML = "";
-
         qElem.innerHTML = quizData[currentIdx].q;
+
         quizData[currentIdx].a.forEach((opt, i) => {
             const btn = document.createElement("button");
             btn.className = "option-btn";
             btn.innerText = opt;
-            btn.onclick = () => checkAnswer(i);
+            btn.onclick = () => {
+                if(i === quizData[currentIdx].cor) score++;
+                currentIdx++;
+                if(currentIdx < quizData.length) loadQuiz();
+                else showResult();
+            };
             oElem.appendChild(btn);
         });
     }
 
-    function checkAnswer(chosen) {
-        if (chosen === quizData[currentIdx].cor) score++;
-        currentIdx++;
-        if (currentIdx < quizData.length) loadQuiz();
-        else showResult();
-    }
-
     function showResult() {
-        document.getElementById("question-area").style.display = "none";
+        document.getElementById("quiz-area").style.display = "none";
         document.getElementById("result-area").style.display = "block";
-        document.getElementById("result").innerText = `${quizData.length}문제 중 ${score}문제 정답!`;
+        document.getElementById("score-text").innerText = `${quizData.length}문제 중 ${score}개 정답!`;
     }
 
     loadQuiz();
