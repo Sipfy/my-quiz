@@ -44,31 +44,64 @@
         </div>
     </div>
 
-    <div id="admin-page" class="page">
-        <div class="container">
-            <div id="admin-login">
-                <h2>🔒 관리자 인증</h2>
-                <input type="text" id="adminId" placeholder="아이디"><br>
-                <input type="password" id="adminPw" placeholder="비밀번호"><br>
-                <button class="nav-btn active" onclick="unlockAdmin()">확인</button>
+   <div id="admin-page" class="page">
+    <div class="container">
+        <div id="admin-login">
+            <h2>🔒 관리자 인증</h2>
+            <input type="text" id="adminId" placeholder="아이디"><br>
+            <input type="password" id="adminPw" placeholder="비밀번호"><br>
+            <button class="nav-btn active" onclick="unlockAdmin()">확인</button>
+        </div>
+
+        <div id="admin-data" style="display:none;">
+            <h2>📜 개발자 전용 대시보드</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <button class="nav-btn" onclick="showSubPage('sub1')">1번 자료</button>
+                <button class="nav-btn" onclick="showSubPage('sub2')">2번 자료</button>
+                <button class="nav-btn" onclick="showSubPage('sub3')">3번 자료</button>
             </div>
-            <div id="admin-data" style="display:none;">
-                <h2>📜 개발자 가이드</h2>
-                <div class="admin-content">
-                    <p><strong>버전:</strong> 1.0.2</p>
-                    <p><strong>수정 로그:</strong> innerHTML 적용 완료</p>
-                    <p><strong>정답표:</strong> 1번(0), 2번(1)</p>
-                    <p style="color:red;">* 주의: 이 페이지는 외부 유출 금지</p>
-                </div>
-                <button onclick="location.reload()" style="margin-top:20px;">로그아웃</button>
+
+            <div id="sub1" class="sub-page admin-content" style="display:block;">
+                <h3>📂 1번 자료: 퀴즈 정답지</h3>
+                <p>1번 문제: 서울 (index 0)</p>
+                <p>2번 문제: 무료 (index 0)</p>
             </div>
+
+            <div id="sub2" class="sub-page admin-content" style="display:none;">
+                <h3>📂 2번 자료: 업데이트 계획</h3>
+                <p>- 타이머 기능 추가 예정</p>
+                <p>- 배경 음악 기능 검토 중</p>
+            </div>
+
+            <div id="sub3" class="sub-page admin-content" style="display:none;">
+                <h3>📂 3번 자료: 서버 로그</h3>
+                <p>현재 GitHub Pages 정적 호스팅 사용 중.</p>
+                <p>최종 수정일: 2026-03-10</p>
+            </div>
+
+            <button onclick="location.reload()" style="margin-top:20px; background:#666; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">로그아웃</button>
         </div>
     </div>
+</div>
 
 <script>
+    /* --- 기존 스크립트에 이 함수를 추가하세요 --- */
+    function showSubPage(subId) {
+        // 모든 서브 페이지를 숨김
+        document.querySelectorAll('.sub-page').forEach(page => {
+            page.style.display = 'none';
+        });
+        // 선택한 서브 페이지명 보임
+        document.getElementById(subId).style.display = 'block';
+    }
+
+    // (참고) unlockAdmin 함수와 퀴즈 관련 함수는 그대로 유지하시면 됩니다.
+</script>
+<script>
     // --- 설정 ---
-    const ADMIN_ID = "admin";
-    const ADMIN_PW = "1234";
+    const ADMIN_ID = "doyoon0208";
+    const ADMIN_PW = "rladlfdls0208";
 
     // --- 페이지 전환 로직 ---
     function showPage(pageId) {
