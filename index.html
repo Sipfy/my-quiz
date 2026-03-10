@@ -40,7 +40,7 @@
         const oElem = document.getElementById("options");
         oElem.innerHTML = "";
 
-        qElem.innerText = quizData[currentIdx].q;
+        qElem.innerHTML = quizData[currentIdx].q;
         quizData[currentIdx].a.forEach((opt, i) => {
             const btn = document.createElement("button");
             btn.className = "option-btn";
