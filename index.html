@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>윤리 퀴즈 & 개발자센터</title>
+    <title>생활과 윤리</title>
     <style>
         body { font-family: 'Pretendard', sans-serif; text-align: center; padding: 20px; background: #f0f2f5; }
         .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; width: 90%; max-width: 600px; min-height: 300px; vertical-align: top; }
@@ -20,8 +20,8 @@
 <body>
 
     <div class="nav-menu">
-        <button class="nav-btn active" onclick="showPage('quiz-page')">🎮 퀴즈 풀기</button>
-        <button class="nav-btn" onclick="showPage('admin-page')">👨‍💻 개발자 문서</button>
+        <button class="nav-btn active" onclick="showPage('quiz-page')">🎮 생윤 문항 풀이</button>
+        <button class="nav-btn" onclick="showPage('admin-page')">👨‍💻 개발자 페이지</button>
     </div>
 
     <div id="quiz-page" class="page active">
@@ -29,8 +29,21 @@
             <div id="quiz-category-menu">
                 <h2>🎮 퀴즈 카테고리 선택</h2>
                 <p>풀고 싶은 주제를 골라주세요.</p>
-                <button class="nav-btn" style="background:#4A90E2; color:white;" onclick="startQuiz('ethics')">⚖️ 윤리 교정적 정의</button>
-                <button class="nav-btn" style="background:#F5A623; color:white;" onclick="startQuiz('general')">🌍 일반 상식</button>
+                <button class="nav-btn" style="background:#4A90E2; color:white;" onclick="startQuiz('part1')">윤리학의 분류</button>
+                <button class="nav-btn" style="background:#F5A623; color:white;" onclick="startQuiz('part2')">동서양 윤리 문제에 대한 접근</button>
+                <button class="nav-btn" style="background:#27AE60; color:white;" onclick="startQuiz('part3')">삶과 죽음의 윤리</button>
+                <button class="nav-btn" style="background:#E91E63; color:white;" onclick="startQuiz('part4')">사랑과 성 윤리</button>
+                <button class="nav-btn" style="background:#673AB7; color:white;" onclick="startQuiz('part5')">직업 윤리</button>
+                <button class="nav-btn" style="background:#FF5722; color:white;" onclick="startQuiz('part6')">분배 정의관</button>
+                <button class="nav-btn" style="background:#795548; color:white;" onclick="startQuiz('part7')">형벌관</button>
+                <button class="nav-btn" style="background:#607D8B; color:white;" onclick="startQuiz('part8')">시민 불복종</button>
+                <button class="nav-btn" style="background:#3F51B5; color:white;" onclick="startQuiz('part9')">사회 계약설</button>
+                <button class="nav-btn" style="background:#009688; color:white;" onclick="startQuiz('part10')">과학 기술과 윤리</button>
+                <button class="nav-btn" style="background:#8BC34A; color:white;" onclick="startQuiz('part11')">자연과 윤리</button>
+                <button class="nav-btn" style="background:#9C27B0; color:white;" onclick="startQuiz('part12')">예술과 대중문화 윤리</button>
+                <button class="nav-btn" style="background:#f44336; color:white;" onclick="startQuiz('part13')">현실주의와 평화론</button>
+                <button class="nav-btn" style="background:#00BCD4; color:white;" onclick="startQuiz('part14')">해외 원조</button>
+                
             </div>
 
             <div id="quiz-game-area" style="display:none;">
@@ -87,13 +100,53 @@
 
     // --- 카테고리별 퀴즈 데이터 ---
     const allQuizzes = {
-        'ethics': [
+        'part1': [
             { q: "교정적 정의 <br><br> 베카리아가 주장한 형벌의 특징은?", a: ["사형이 효과적이다", "종신 노역형이 효과적이다", "형벌은 복수다"], cor: 1 },
             { q: "교정적 정의 <br><br> 루소에 의하면 사형은 어떤 관점에서 다뤄지는가?", a: ["국가 보존", "범죄자 인권", "경제적 가치"], cor: 0 }
         ],
-        'general': [
+        'part2': [
             { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ]
+        ],
+        'part2': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
+        ],
+        'part3': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
+        ],
+        'part4': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
+        ],
+        'part5': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
+        ],
+        'part6': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
+        ],
+        'part7': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
+        ],
+        'part8': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
+        ],
+        'part9': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
+        ],
+        'part10': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
+        ],
+        'part11': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
+        ],
+        'part12': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
+        ],
+        'part13': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
+        ],
+        'part14': [
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
+        ],
+        
     };
 
     let selectedQuiz = []; 
