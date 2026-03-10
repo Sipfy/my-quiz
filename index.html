@@ -2,23 +2,17 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>퀴즈 & 개발자센터</title>
+    <title>윤리 퀴즈 & 개발자센터</title>
     <style>
         body { font-family: 'Pretendard', sans-serif; text-align: center; padding: 20px; background: #f0f2f5; }
         .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; width: 90%; max-width: 600px; min-height: 300px; vertical-align: top; }
-        
-        /* 상단 메뉴 스타일 */
         .nav-menu { margin-bottom: 20px; }
-        .nav-btn { padding: 10px 20px; margin: 0 5px; cursor: pointer; border: none; border-radius: 20px; background: #ddd; font-weight: bold; transition: 0.3s; }
+        .nav-btn { padding: 10px 20px; margin: 5px; cursor: pointer; border: none; border-radius: 20px; background: #ddd; font-weight: bold; transition: 0.3s; }
         .nav-btn.active { background: #4CAF50; color: white; }
-
-        /* 페이지 레이아웃 */
         .page { display: none; }
         .page.active { display: block; }
-
-        /* 로그인 & 문서 스타일 */
         input { width: 70%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
-        .admin-content { text-align: left; background: #f9f9f9; padding: 15px; border-left: 5px solid #4CAF50; }
+        .admin-content { text-align: left; background: #f9f9f9; padding: 15px; border-left: 5px solid #4CAF50; white-space: pre-wrap; word-break: break-all; }
         .option-btn { display: block; width: 100%; margin: 10px 0; padding: 12px; cursor: pointer; border: 1px solid #eee; border-radius: 8px; background: #fff; }
         .option-btn:hover { background: #f0f0f0; }
     </style>
@@ -32,277 +26,107 @@
 
     <div id="quiz-page" class="page active">
         <div class="container">
-            <div id="quiz-area">
-                <h2 id="question">질문을 불러오는 중...</h2>
-                <div id="options"></div>
+            <div id="quiz-category-menu">
+                <h2>🎮 퀴즈 카테고리 선택</h2>
+                <p>풀고 싶은 주제를 골라주세요.</p>
+                <button class="nav-btn" style="background:#4A90E2; color:white;" onclick="startQuiz('ethics')">⚖️ 윤리 교정적 정의</button>
+                <button class="nav-btn" style="background:#F5A623; color:white;" onclick="startQuiz('general')">🌍 일반 상식</button>
             </div>
-            <div id="result-area" style="display:none;">
-                <h2>🎉 결과</h2>
-                <p id="score-text" style="font-size:24px;"></p>
-                <button onclick="location.reload()" class="nav-btn active">다시 풀기</button>
+
+            <div id="quiz-game-area" style="display:none;">
+                <div id="quiz-area">
+                    <h2 id="question">질문 로딩 중...</h2>
+                    <div id="options"></div>
+                </div>
+                <div id="result-area" style="display:none;">
+                    <h2>🎉 결과</h2>
+                    <p id="score-text" style="font-size:24px; font-weight:bold;"></p>
+                    <button onclick="location.reload()" class="nav-btn active">카테고리로 돌아가기</button>
+                </div>
             </div>
         </div>
     </div>
 
-   <div id="admin-page" class="page">
-    <div class="container">
-        <div id="admin-login">
-            <h2>🔒 관리자 인증</h2>
-            <input type="text" id="adminId" placeholder="아이디"><br>
-            <input type="password" id="adminPw" placeholder="비밀번호"><br>
-            <button class="nav-btn active" onclick="unlockAdmin()">확인</button>
-        </div>
-
-        <div id="admin-data" style="display:none;">
-            <h2>📜 개발자 전용 대시보드</h2>
-            
-            <div style="margin-bottom: 20px;">
-                <button class="nav-btn" onclick="showSubPage('sub1')">싱어 말과 아이의 비유</button>
-                <button class="nav-btn" onclick="showSubPage('sub2')">칸트 - 의무에 일치하는 행위 vs 의무로부터 비롯된 행위</button>
-                <button class="nav-btn" onclick="showSubPage('sub3')">로크 자유 양도?</button>
-                <button class="nav-btn" onclick="showSubPage('sub4')">롤스 순수 절차적 정의</button>
-                <button class="nav-btn" onclick="showSubPage('sub5')">홉스 자연법 인식</button>
+    <div id="admin-page" class="page">
+        <div class="container">
+            <div id="admin-login">
+                <h2>🔒 관리자 인증</h2>
+                <input type="text" id="adminId" placeholder="아이디"><br>
+                <input type="password" id="adminPw" placeholder="비밀번호"><br>
+                <button class="nav-btn active" onclick="unlockAdmin()">확인</button>
             </div>
 
-            <div id="sub1" class="sub-page admin-content" style="display:block;">
-                <h3>📂 싱어 말과 아이의 비유</h3>
-                <p>`안녕하세요, 김종익 윤리연구소입니다.
+            <div id="admin-data" style="display:none;">
+                <h2>📜 개발자 전용 대시보드</h2>
+                <div style="margin-bottom: 20px;">
+                    <button class="nav-btn" onclick="showSubPage('sub1')">싱어</button>
+                    <button class="nav-btn" onclick="showSubPage('sub2')">칸트</button>
+                    <button class="nav-btn" onclick="showSubPage('sub3')">로크</button>
+                    <button class="nav-btn" onclick="showSubPage('sub4')">롤스</button>
+                    <button class="nav-btn" onclick="showSubPage('sub5')">홉스</button>
+                </div>
 
-해당 내용은 싱어의(공리주의의) 대표적 사상인 이익 평등 고려의 원칙에 대한 설명입니다. 
-우선 설명을 드리기에 앞서 김종익 선생님께서 참고하셨을 원전 내용을 일부 수록해드리겠습니다.
+                <div id="sub1" class="sub-page admin-content" style="display:block;">
+                    <h3>📂 싱어 말과 아이의 비유</h3>
+                    <p>싱어는 이익 평등 고려의 원칙에 따라 동물의 고통도 인간과 동일한 기준으로 고려해야 한다고 주장합니다...</p>
+                </div>
+                <div id="sub2" class="sub-page admin-content" style="display:none;"><h3>📂 칸트</h3><p>의무로부터 비롯된 행위...</p></div>
+                <div id="sub3" class="sub-page admin-content" style="display:none;"><h3>📂 로크</h3><p>생명 자유 자산의 권리는 양도하지 않는다...</p></div>
+                <div id="sub4" class="sub-page admin-content" style="display:none;"><h3>📂 롤스</h3><p>순수 절차적 정의...</p></div>
+                <div id="sub5" class="sub-page admin-content" style="display:none;"><h3>📂 홉스</h3><p>자연 상태에서 자연법 인식...</p></div>
 
-"만약 내가 손바닥으로 말의 엉덩이를 세게 친다면 아마 말은 움직이기 시작할 것이다. 그러나 말은 짐작건대 거의 고통을 느끼지 않을 것이다. 말의 피부는 단순히 치는 것을 견뎌 낼 수 있을 만큼 충분히 두텁다. 그러나 내가 똑같은 방식으로 아기를 친다면 아기는 울 것이며, 아마도 고통을 느낄 것이다. 왜냐하면 아기의 피부는 훨씬 민감하기 때문이다. 그러므로 똑같은 힘으로 친다고 해도 아기를 치는 것이 말을 치는 것보다 더욱 나쁘다. 우리가 손바닥으로 아기를 쳐서 주는 것과 같은 고통을 말에게 주려면...(중략)... 아마 큰 매로 두들겨 패야 할 것이다. 이것이 내가 말하는 '같은 양의 고통'을 의미하는 것이다." <싱어, 실천 윤리학>
-
-싱어가 일부 동물의 이익을 평등하게 고려해야 한다고 주장했을 때, 우리는 이런 식으로 오해할 수 있습니다. 
-"말의 엉덩이를 세게 때렸을 때 고통을 느끼지 않으니까 아이의 엉덩이를 세게 때려도 괜찮겠지?, 같은 방식으로 대우했으니까 이것이 곧 그들의 이익을 평등하게 고려한 것이겠지?"
-
-하지만 싱어의 답변은 다릅니다. 싱어는 인간의 기준으로 동물을 동등하게 대우할 것을 주장한 것이 아니라 그들 각각의 고통과 쾌락을 그들의 기준으로 해석하기를 원한 것이므로 고통의 측면에서 볼 때 "말을 매로 두들겨 패기 = 아이의 엉덩이를 세게 때리기" 라고 주장한 것입니다.
-
-
-
-결론적으로, 싱어는 개별 동물들의 고유한 이익 관심을 고려한 것이라고 볼 수 있습니다.
-
-
-
-충분히 어려운 비유입니다. 이 글을 잘 읽어보시고 다시 강의를 들어보시면 더 선명하게 이해될 수 있습니다.
-
- 
-
-충분한 답변이 되었나요? 해결하지 못한 궁금한 점이 있다면 언제든 또 질문해주세요. 감사합니다.`</p>
+                <button onclick="location.reload()" style="margin-top:20px; background:#666; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">로그아웃</button>
             </div>
-
-            <div id="sub2" class="sub-page admin-content" style="display:none;">
-                <h3>📂 칸트 - 의무에 일치하는 행위 vs 의무로부터 비롯된 행위</h3>
-                <p>`안녕하세요, 김종익 윤리연구소입니다.
-의무에 맞는(일치하는, 부합하는) 행위가 모두 도덕적 가치를 지니는 것이 아니라 의무에 맞는 행위 중 의무로부터 비롯된 행위가 도덕적 가치를 지닙니다. 또는 달리 말해서 도덕법칙에 대한 존경심으로부터 나온 행위가 도덕적 가치를 지닌다고 표현하기도 합니다. 
-
-선생님께서 수업 때 들어주셨던 정직한 상인의 예시로 다시 복습해보자면
-
-
-
-만약 어떤 상인이 정직하게 물건을 판매했다면 그것은 우선 의무에 맞는(일치하는, 부합하는) 행위입니다.
-
-하지만 상인이 칭찬을 받고자, 또는 더 많은 이익 실현 등을 위해서 정직하게 물건을 판매했다면 그것은 의무에 맞는 행위이지만 의무로부터 비롯된 행위는 아니므로 도덕적 가치를 지니지 않습니다.
-
-
-
-그러나 상인이 그러한 일체의 경향성 없이 오직 그렇게 해야만 한다는 당위에 따라 정직하게 물건을 판매했다면 그것은 의무에 맞는 행위이고, 의무로부터 비롯된 행위이므로 도덕적 가치를 지닙니다.
-
-
-
-무슨 느낌인지 이해가 되셨나요? 의무에 맞냐 아니냐는 결과(정직하게 판매했냐 안 했냐)가 결정합니다. 하지만 도덕적 가치를 지니냐 아니냐는 의무로부터 비롯되었는지에 대한 여부에 따라 결정됩니다. 
-
-
-
-마지막으로 정리해보면, 의무에 맞는(일치하는, 부합하는) 행위 ⊃ 의무로부터 비롯된 행위
-
-그러면 선지는 이런 방식으로 출제가 됩니다.
-
-
-
-(예제 1) 의무에 맞는 행위는 모두 도덕적 가치를 지니는가? (X)
-
-(예제 2) 의무에 맞는 행위는 어떤 경우에도 도덕적 가치를 지닐 수 없는가? (X)
-
-(예제 3) 의무에 맞지 않았다면 어떤 경우에도 도덕적 가치를 지닐 수 없는가? (O)
-
-(예제 4) 의무로부터 비롯된 행위는 반드시 의무에 일치하는가? (O) 
-
-좋은 질문 감사합니다. 
-충분한 답변이 되었나요? 해결하지 못한 궁금한 점이 있다면 언제든 또 질문해주세요. 감사합니다.`</p>
-            </div>
-
-            <div id="sub3" class="sub-page admin-content" style="display:none;">
-                <h3>📂 로크 자유 양도?</h3>
-                <p>`안녕하세요, 김종익 윤리연구소입니다.
-
-
-
-좋은 질문입니다.
-
-이는 로크가 양도하는 자유권이 있고, 양도하지 않는 자유권이 있기 때문입니다. 예를 들어 생명에 대한 자유, 자신의 신체에 대한 자유 등은 양도하지 않는다고 이해해주시면 되겠습니다.
-
-
-
-이 때문에 평가원이나 EBS 연계교재 등에서 로크에게 계약 당시 '자유권'을 양도하는가? 와 같은 선지는 출제한 적이 한번도 없습니다. 만약 출제한다고 하더라도 "인간은 계약 당시 생명 자유 자산의 권리는 양도하지 않는다." 정도로 나올테니 이때는 O라고 골라주시면 되겠습니다. 
-
-
-
-좋은 질문 감사합니다. 
-
-충분한 답변이 되었나요? 해결하지 못한 궁금한 점이 있다면 언제든 또 질문해주세요. 감사합니다.`</p>
-            </div>
-
-            <div id="sub4" class="sub-page admin-content" style="display:none;">
-                <h3>📂 롤스 절차적 정의</h3>
-                <p>`아주 중요하고 좋은 질문입니다. 많은 학생들이 그 지점에서 개념에 대한 혼동을 겪곤 합니다. (저 역시도 그랬었습니다.)
-
-롤스에 따르면, 순수 절차적 정의가 성립하는 경우, 올바른 결과에 대한 '독립적인' 기준이 없지만 그 대신에 올바른 절차가 있어 그 절차만 따르면 내용에 상관없이 결과도 마찬가지로 올바르게 된다고 주장합니다. 
-
-여기서, 독립적인 기준이 없다는 말은 절차에 관계없이 ​'~한 원리만 따르면 그것은 올바른 결과이다.'와 같은 기준이 존재하지 않는다는 말입니다. 그러므로 말씀하신 대로 공정한 절차를 따랐나 하는 기준은 존재할 수 있습니다.
-
-
-
-결론적으로,
-
-공정한 분배를 위해 올바른 결과에 대한 '독립적' 기준이 필수적으로 요구되는가? (X) (2023_09)
-
-순수 절차적 정의에는 분배 결과가 정의로운지 판단할 기준이 있다. (O) (2026_09)
-
-
-
-분명 어려운 개념이 맞습니다. 혹시라도 이해되지 않은 점이 있다면 꼭 재질문해주시길 바랍니다. `</p>
-            </div>
-
-            <div id="sub5" class="sub-page admin-content" style="display:block;">
-                <h3>📂 홉스 자연법 인식</h3>
-                <p>`안녕하세요, 김종익 윤리연구소입니다.
-홉스 자연법 인식
-
-홉스에게 국가가 형성되는 과정을 자세히 말씀드리겠습니다.
-
-자연상태는 전쟁상태기 때문에 만인의 만인에 대한 투쟁 상태라고 정의가 됩니다. 그렇기 때문에 일반 원칙인 자연법이 존재함에도 불구하고 사람들은 그것을 인식하지 못하고 서로의 생명을 침해할 수 있는 권리까지도 지니게 됩니다. (하지만 강제력이 존재하는 국가로 들어가기 전이므로 어떠한 정의도, 부정의도 존재하지 않습니다.) 그러한 전쟁 상태에서 벗어나기 위해서 인간은 그제서야 자연법을 인식하고 자연 상태(전쟁 상태)에서 벗어나 국가를 형성하게 됩니다. 그렇기 때문에, 국가를 형성하기 전에 자연법을 인식하는 것이므로 자연 상태에서 자연법을 인식한다는 말도 맞는 말이 되는 것입니다.
-
-
-
-스토리 형식으로 정리해드리겠습니다.
-
-
-
-1) 자연 상태에서 개개인들은 자연법이 존재함에도 불구하고 인식하지 못했음
-
-2) 그러므로 자연 상태는 곧 전쟁 상태임
-
-3) 전쟁 상태에서 벗어나고자 사람들은 그제서야 자연법을 인식하고 국가를 형성함 (어쨌든 국가를 형성하기 이전에 자연법을 인식한 것이므로 자연 상태에서 자연법을 인식했다고 볼 수 있음)
-
-
-
-그렇기 때문에) 수능이나 평가원 모의고사에서는 홉스에게 자연 상태에서 자연법을 인식했는가? 에 대해서 잘 물어보지 않습니다. 출제하더라도 '엄밀하게' 논란이 없게끔 출제할테니 위 스토리를 잘 기억해주시면 되겠습니다. 
-
-
-좋은 질문 감사합니다. 
-충분한 답변이 되었나요? 해결하지 못한 궁금한 점이 있다면 언제든 또 질문해주세요. 감사합니다.`</p>
-            </div>
-
-            <button onclick="location.reload()" style="margin-top:20px; background:#666; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">로그아웃</button>
         </div>
     </div>
-</div>
 
-<script>
-    /* --- 기존 스크립트에 이 함수를 추가하세요 --- */
-    function showSubPage(subId) {
-        // 모든 서브 페이지를 숨김
-        document.querySelectorAll('.sub-page').forEach(page => {
-            page.style.display = 'none';
-        });
-        // 선택한 서브 페이지명 보임
-        document.getElementById(subId).style.display = 'block';
-    }
-
-    // (참고) unlockAdmin 함수와 퀴즈 관련 함수는 그대로 유지하시면 됩니다.
-</script>
 <script>
     // --- 설정 ---
     const ADMIN_ID = "doyoon0208";
     const ADMIN_PW = "rladlfdls0208";
 
-    // --- 페이지 전환 로직 ---
-    function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        
-        document.getElementById(pageId).classList.add('active');
-        event.currentTarget.classList.add('active');
-    }
-
-    // --- 관리자 잠금 해제 ---
-    function unlockAdmin() {
-        const id = document.getElementById("adminId").value;
-        const pw = document.getElementById("adminPw").value;
-
-        if (id === ADMIN_ID && pw === ADMIN_PW) {
-            document.getElementById("admin-login").style.display = "none";
-            document.getElementById("admin-data").style.display = "block";
-        } else {
-            alert("권한이 없습니다.");
-        }
-    }
-
-    <div id="quiz-page" class="page active">
-    <div class="container">
-        <div id="quiz-category-menu">
-            <h2>🎮 퀴즈 카테고리 선택</h2>
-            <p>풀고 싶은 주제를 골라주세요.</p>
-            <button class="nav-btn active" onclick="startQuiz('general')">🌍 상식 퀴즈</button>
-            <button class="nav-btn active" onclick="startQuiz('it')">💻 IT 퀴즈</button>
-            <button class="nav-btn active" onclick="startQuiz('fun')">🕹️ 넌센스 퀴즈</button>
-        </div>
-
-        <div id="quiz-game-area" style="display:none;">
-            <div id="quiz-area">
-                <h2 id="question">질문 로딩 중...</h2>
-                <div id="options"></div>
-            </div>
-            <div id="result-area" style="display:none;">
-                <h2>🎉 결과</h2>
-                <p id="score-text" style="font-size:24px;"></p>
-                <button onclick="location.reload()" class="nav-btn active">카테고리로 돌아가기</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // --- 카테고리별 문제 데이터 ---
+    // --- 카테고리별 퀴즈 데이터 ---
     const allQuizzes = {
+        'ethics': [
+            { q: "교정적 정의 <br><br> 베카리아가 주장한 형벌의 특징은?", a: ["사형이 효과적이다", "종신 노역형이 효과적이다", "형벌은 복수다"], cor: 1 },
+            { q: "교정적 정의 <br><br> 루소에 의하면 사형은 어떤 관점에서 다뤄지는가?", a: ["국가 보존", "범죄자 인권", "경제적 가치"], cor: 0 }
+        ],
         'general': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "제주"], cor: 0 },
-            { q: "태양계에서 가장 큰 행성은?", a: ["지구", "화성", "목성"], cor: 2 }
-        ],
-        'it': [
-            { q: "HTML에서 줄바꿈 태그는?", a: ["&lt;br&gt;", "&lt;p&gt;", "&lt;div&gt;"], cor: 0 },
-            { q: "GitHub Pages는 유료인가요?", a: ["네", "아니오"], cor: 1 }
-        ],
-        'fun': [
-            { q: "세상에서 가장 가난한 왕은?", a: ["최저임금", "설탕왕", "최저왕"], cor: 2 }
+            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
         ]
     };
 
-    let selectedQuiz = []; // 현재 선택된 문제 세트
+    let selectedQuiz = []; 
     let currentIdx = 0;
     let score = 0;
 
-    // 퀴즈 시작 함수
-    function startQuiz(category) {
-        selectedQuiz = allQuizzes[category]; // 선택한 카테고리의 데이터 가져오기
-        currentIdx = 0;
-        score = 0;
+    // --- 페이지/탭 전환 기능 ---
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        if(event) event.currentTarget.classList.add('active');
+    }
 
-        // 화면 전환
+    function showSubPage(subId) {
+        document.querySelectorAll('.sub-page').forEach(page => page.style.display = 'none');
+        document.getElementById(subId).style.display = 'block';
+    }
+
+    // --- 로그인 기능 ---
+    function unlockAdmin() {
+        if (document.getElementById("adminId").value === ADMIN_ID && document.getElementById("userPw" ? document.getElementById("userPw").value : document.getElementById("adminPw").value) === ADMIN_PW) {
+            document.getElementById("admin-login").style.display = "none";
+            document.getElementById("admin-data").style.display = "block";
+        } else { alert("권한이 없습니다."); }
+    }
+
+    // --- 퀴즈 실행 로직 ---
+    function startQuiz(category) {
+        selectedQuiz = allQuizzes[category];
+        currentIdx = 0; score = 0;
         document.getElementById('quiz-category-menu').style.display = 'none';
         document.getElementById('quiz-game-area').style.display = 'block';
-        
         loadQuiz();
     }
 
@@ -310,16 +134,14 @@
         const qElem = document.getElementById("question");
         const oElem = document.getElementById("options");
         oElem.innerHTML = "";
-        
-        const currentData = selectedQuiz[currentIdx];
-        qElem.innerHTML = currentData.q;
-
-        currentData.a.forEach((opt, i) => {
+        const data = selectedQuiz[currentIdx];
+        qElem.innerHTML = data.q;
+        data.a.forEach((opt, i) => {
             const btn = document.createElement("button");
             btn.className = "option-btn";
             btn.innerText = opt;
             btn.onclick = () => {
-                if(i === currentData.cor) score++;
+                if(i === data.cor) score++;
                 currentIdx++;
                 if(currentIdx < selectedQuiz.length) loadQuiz();
                 else showResult();
