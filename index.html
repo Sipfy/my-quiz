@@ -166,12 +166,19 @@
         document.getElementById(subId).style.display = 'block';
     }
 
-    // --- 로그인 기능 ---
+    // --- 로그인 기능 (수정 완료) ---
     function unlockAdmin() {
-        if (document.getElementById("adminId").value === ADMIN_ID && document.getElementById("userPw" ? document.getElementById("userPw").value : document.getElementById("adminPw").value) === ADMIN_PW) {
+        // 각각의 입력창에서 값을 가져옵니다.
+        const idInput = document.getElementById("adminId").value;
+        const pwInput = document.getElementById("adminPw").value;
+
+        // 설정된 상수(ADMIN_ID, ADMIN_PW)와 비교합니다.
+        if (idInput === ADMIN_ID && pwInput === ADMIN_PW) {
             document.getElementById("admin-login").style.display = "none";
             document.getElementById("admin-data").style.display = "block";
-        } else { alert("권한이 없습니다."); }
+        } else {
+            alert("권한이 없습니다.");
+        }
     }
 
     // --- 퀴즈 실행 로직 ---
