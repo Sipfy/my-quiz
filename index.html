@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>생활과 윤리</title>
+    <title>생활과 윤리 독서실</title>
     <style>
         body { font-family: 'Pretendard', sans-serif; text-align: center; padding: 20px; background: #f0f2f5; }
         .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; width: 90%; max-width: 600px; min-height: 300px; vertical-align: top; }
@@ -13,13 +13,14 @@
         .page.active { display: block; }
         input { width: 70%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
         .admin-content { text-align: left; background: #f9f9f9; padding: 15px; border-left: 5px solid #4CAF50; white-space: pre-wrap; word-break: break-all; }
-        .option-btn { display: block; width: 100%; margin: 10px 0; padding: 12px; cursor: pointer; border: 1px solid #eee; border-radius: 8px; background: #fff; }
+        .option-btn { display: block; width: 100%; margin: 10px 0; padding: 12px; cursor: pointer; border: 1px solid #eee; border-radius: 8px; background: #fff; text-align: left; }
         .option-btn:hover { background: #f0f0f0; }
 
-        /* 오답 노트 및 해설 버튼 스타일 추가 */
-        .review-card { text-align: left; background: #ffffff; border: 1px solid #e1e4e8; border-left: 6px solid #ff5252; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .exp-btn { background: #f1f3f5; border: 1px solid #dee2e6; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9em; margin-top: 10px; }
-        .explanation-box { display: none; background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 10px; border: 1px inset #eee; line-height: 1.6; font-size: 0.95em; }
+        /* 오답 및 전체 해설 카드 스타일 */
+        .review-card { text-align: left; background: #ffffff; border: 1px solid #e1e4e8; border-left: 6px solid #ddd; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .exp-btn { background: #f1f3f5; border: 1px solid #dee2e6; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.85em; margin-top: 10px; transition: 0.2s; }
+        .exp-btn:hover { background: #e9ecef; }
+        .explanation-box { display: none; background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 10px; border: 1px inset #eee; line-height: 1.6; font-size: 0.9em; color: #444; }
     </style>
 </head>
 <body>
@@ -28,7 +29,6 @@
     <img src="./images/grok-image-3aad52e0-4a17-4371-9beb-ede7233f6ce2.png" 
          alt="내 프로필 사진" 
          style="width: 100%; max-width: 450px; height: auto; object-fit: contain; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-    
     <h1 style="margin-top: 18px; color: #333; font-size: 28px;">📚 생활과 윤리 독서실</h1>
 </div>
 
@@ -41,9 +41,9 @@
         <div class="container">
             <div id="quiz-category-menu">
                 <h2>🎮 단원 선택</h2>
-                <p>2021학년도~2026학년도 평가원 기출문항 + EBS 연계교재 우수문항이 수록되어 있습니다. </p>
+                <p style="color:#666; font-size:0.9em;">평가원 기출 + EBS 우수 문항이 랜덤으로 출제됩니다.</p>
                 <button class="nav-btn" style="background:#4A90E2; color:white;" onclick="startQuiz('part1')">윤리학의 분류</button>
-                <button class="nav-btn" style="background:#F5A623; color:white;" onclick="startQuiz('part2')">동서양 윤리 문제에 대한 접근</button>
+                <button class="nav-btn" style="background:#F5A623; color:white;" onclick="startQuiz('part2')">동서양 윤리 문제 접근</button>
                 <button class="nav-btn" style="background:#27AE60; color:white;" onclick="startQuiz('part3')">삶과 죽음의 윤리</button>
                 <button class="nav-btn" style="background:#E91E63; color:white;" onclick="startQuiz('part4')">사랑과 성 윤리</button>
                 <button class="nav-btn" style="background:#673AB7; color:white;" onclick="startQuiz('part5')">직업 윤리</button>
@@ -53,7 +53,7 @@
                 <button class="nav-btn" style="background:#3F51B5; color:white;" onclick="startQuiz('part9')">사회 계약설</button>
                 <button class="nav-btn" style="background:#009688; color:white;" onclick="startQuiz('part10')">과학 기술과 윤리</button>
                 <button class="nav-btn" style="background:#8BC34A; color:white;" onclick="startQuiz('part11')">자연과 윤리</button>
-                <button class="nav-btn" style="background:#9C27B0; color:white;" onclick="startQuiz('part12')">예술과 대중문화 윤리</button>
+                <button class="nav-btn" style="background:#9C27B0; color:white;" onclick="startQuiz('part12')">예술과 대중문화</button>
                 <button class="nav-btn" style="background:#f44336; color:white;" onclick="startQuiz('part13')">현실주의와 평화론</button>
                 <button class="nav-btn" style="background:#00BCD4; color:white;" onclick="startQuiz('part14')">해외 원조</button>
             </div>
@@ -64,9 +64,9 @@
                     <div id="options"></div>
                 </div>
                 <div id="result-area" style="display:none;">
-                    <h2>🎉 결과</h2>
-                    <p id="score-text" style="font-size:24px; font-weight:bold;"></p>
-                    <div id="review-zone"></div> <button onclick="location.reload()" class="nav-btn active">카테고리로 돌아가기</button>
+                    <h2>🎉 학습 결과</h2>
+                    <p id="score-text" style="font-size:24px; font-weight:bold; color:#4CAF50;"></p>
+                    <div id="review-zone"></div> <button onclick="location.reload()" class="nav-btn active" style="margin-top:20px;">다른 단원 풀기</button>
                 </div>
             </div>
         </div>
@@ -80,6 +80,7 @@
                 <input type="password" id="adminPw" placeholder="비밀번호"><br>
                 <button class="nav-btn active" onclick="unlockAdmin()">확인</button>
             </div>
+
             <div id="admin-data" style="display:none;">
                 <h2>📜 개발자 전용 대시보드</h2>
                 <div style="margin-bottom: 20px;">
@@ -103,24 +104,26 @@
     const ADMIN_ID = "doyoon0208";
     const ADMIN_PW = "rladlfdls0208";
 
+    // 퀴즈 데이터 (info 항목에 해설을 적으세요)
     const allQuizzes = {
         'part1': [
-            { q: "실천 윤리학의 입장으로 가장 적절한 것은? (2021_06)", a: ["윤리학의 핵심 과제는 도덕적 추리와 논증 방법의 연구이다.", "윤리학의 핵심 과제는 도덕적 관행에 대한 인과적 서술이다.", "윤리학의 핵심 과제는 경험적 관행에 대한 연구를 통한 도덕성의 검증이다.", "윤리학의 핵심 과제는 삶의 구체적인 도덕 문제의 해결이다."], cor: 3, info: "실천 윤리학은 이론을 토대로 구체적 윤리 문제를 해결하는 데 중점을 둡니다." },
-            { q: "기술 윤리학의 입장으로 가장 적절한 것은? (2021_09)", a: ["보편적 도덕 원리를 현실의 개별 상황에 적용해야 한다.", "도덕 규칙이나 평가의 표준이 되는 원리를 정립해야 한다.", "도덕 언어의 의미와 도덕 추론의 타당성을 검증해야 한다.", "도덕 관행의 발생 과정을 객관적으로 설명해야 한다."], cor: 3, info: "기술 윤리학은 특정 문화권의 도덕 관행을 가치 중립적으로 서술합니다." }
+            { q: "실천 윤리학의 입장으로 가장 적절한 것은? (2021_06)", a: ["윤리학의 핵심 과제는 도덕적 추리와 논증 방법의 연구이다.", "윤리학의 핵심 과제는 도덕적 관행에 대한 인과적 서술이다.", "윤리학의 핵심 과제는 경험적 관행에 대한 연구를 통한 도덕성의 검증이다.", "윤리학의 핵심 과제는 삶의 구체적인 도덕 문제의 해결이다."], cor: 3, info: "실천 윤리학은 이론을 바탕으로 현실의 도덕 문제를 해결하는 것을 목적으로 합니다." },
+            { q: "기술 윤리학의 입장으로 가장 적절한 것은? (2021_09)", a: ["보편적 도덕 원리를 현실의 개별 상황에 적용해야 한다.", "도덕 규칙이나 평가의 표준이 되는 원리를 정립해야 한다.", "도덕 언어의 의미와 도덕 추론의 타당성을 검증해야 한다.", "도덕 관행의 발생 과정을 객관적으로 설명해야 한다."], cor: 3, info: "기술 윤리학은 있는 그대로의 도덕 현상을 기술하고 인과관계를 설명합니다." }
         ],
-        // 다른 part들은 형식에 맞춰 채워주시면 됩니다.
+        'part2': [{ q: "동서양 윤리 문제 접근 예시 문항", a: ["정답", "오답1", "오답2"], cor: 0, info: "여기에 해설을 작성하세요." }],
+        // ... 나머지 part들도 위 형식처럼 q, a, cor, info를 채우시면 됩니다.
     };
 
     let selectedQuiz = []; 
     let currentIdx = 0;
     let score = 0;
-    let wrongAnswers = [];
+    let quizHistory = []; // 풀이 기록을 담을 배열
 
     function showPage(pageId) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
-        if(event) event.currentTarget.classList.add('active');
+        if(event && event.currentTarget) event.currentTarget.classList.add('active');
     }
 
     function showSubPage(subId) {
@@ -134,17 +137,16 @@
         if (idInput === ADMIN_ID && pwInput === ADMIN_PW) {
             document.getElementById("admin-login").style.display = "none";
             document.getElementById("admin-data").style.display = "block";
-        } else { alert("권한이 없습니다."); }
+        } else { alert("인증 실패!"); }
     }
 
-    // --- 문제 랜덤 섞기 기능 포함 ---
     function startQuiz(category) {
         let rawData = allQuizzes[category] || [];
-        if (rawData.length === 0) { alert("문제가 없습니다!"); return; }
+        if (rawData.length === 0) { alert("문제가 준비 중입니다."); return; }
         
-        // 랜덤으로 섞기
+        // 문제 랜덤 셔플
         selectedQuiz = [...rawData].sort(() => Math.random() - 0.5);
-        currentIdx = 0; score = 0; wrongAnswers = [];
+        currentIdx = 0; score = 0; quizHistory = [];
 
         document.getElementById('quiz-category-menu').style.display = 'none';
         document.getElementById('quiz-game-area').style.display = 'block';
@@ -159,15 +161,24 @@
         oElem.innerHTML = "";
         const data = selectedQuiz[currentIdx];
         qElem.innerHTML = data.q;
+
         data.a.forEach((opt, i) => {
             const btn = document.createElement("button");
             btn.className = "option-btn";
             btn.innerText = opt;
             btn.onclick = () => {
-                if(i === data.cor) score++;
-                else {
-                    wrongAnswers.push({ q: data.q, user: opt, correct: data.a[data.cor], info: data.info || "해설이 없습니다." });
-                }
+                const isCorrect = (i === data.cor);
+                if(isCorrect) score++;
+                
+                // 모든 문제의 풀이 기록 저장
+                quizHistory.push({
+                    question: data.q,
+                    userChoice: opt,
+                    correctAnswer: data.a[data.cor],
+                    explanation: data.info || "해설이 등록되지 않았습니다.",
+                    isCorrect: isCorrect
+                });
+
                 currentIdx++;
                 if(currentIdx < selectedQuiz.length) loadQuiz();
                 else showResult();
@@ -176,32 +187,44 @@
         });
     }
 
-    // --- 해설 보기 기능이 포함된 결과창 ---
     function showResult() {
         document.getElementById("quiz-area").style.display = "none";
         document.getElementById("result-area").style.display = "block";
         document.getElementById("score-text").innerText = `${selectedQuiz.length}문제 중 ${score}개 정답!`;
 
-        let reviewHtml = "<h3 style='margin-top:20px;'>📝 오답 노트</h3>";
-        if(wrongAnswers.length === 0) reviewHtml += "<p>모두 맞혔습니다! 🎉</p>";
-        else {
-            wrongAnswers.forEach((item, idx) => {
-                reviewHtml += `
-                    <div class="review-card">
-                        <div><b>Q. ${item.q}</b></div>
-                        <div style="color:#ff5252; margin-top:5px;">나의 답: ${item.user}</div>
-                        <div style="color:#4CAF50;">정답: ${item.correct}</div>
-                        <button class="exp-btn" onclick="toggleExp(${idx})">🔽 해설 보기</button>
-                        <div id="exp-${idx}" class="explanation-box">${item.info}</div>
-                    </div>`;
-            });
-        }
+        let reviewHtml = "<h3 style='margin: 30px 0 15px;'>📖 전체 문항 해설 리스트</h3>";
+        
+        quizHistory.forEach((item, idx) => {
+            const borderColor = item.isCorrect ? "#2ecc71" : "#ff5252"; // 맞으면 초록, 틀리면 빨강 테두리
+            const icon = item.isCorrect ? "✅" : "❌";
+
+            reviewHtml += `
+                <div class="review-card" style="border-left-color: ${borderColor}">
+                    <div><b>${idx + 1}. ${icon} ${item.question}</b></div>
+                    <div style="margin-top:8px; font-size: 0.9em;">
+                        <span style="color:${item.isCorrect ? '#2ecc71' : '#ff5252'}">나의 선택: ${item.userChoice}</span><br>
+                        <span style="color:#4CAF50;">정답: ${item.correctAnswer}</span>
+                    </div>
+                    <button class="exp-btn" id="btn-${idx}" onclick="toggleExp(${idx})">🔽 해설 보기</button>
+                    <div id="exp-${idx}" class="explanation-box">
+                        <b>💡 해설:</b><br>${item.explanation}
+                    </div>
+                </div>`;
+        });
+        
         document.getElementById("review-zone").innerHTML = reviewHtml;
     }
 
     function toggleExp(idx) {
         const box = document.getElementById(`exp-${idx}`);
-        box.style.display = (box.style.display === "block") ? "none" : "block";
+        const btn = document.getElementById(`btn-${idx}`);
+        if (box.style.display === "none" || box.style.display === "") {
+            box.style.display = "block";
+            btn.innerText = "🔼 해설 접기";
+        } else {
+            box.style.display = "none";
+            btn.innerText = "🔽 해설 보기";
+        }
     }
 </script>
 </body>
