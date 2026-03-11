@@ -95,6 +95,18 @@
             </div>
             <div id="admin-data" style="display:none;">
                 <h2>📜 개발자 전용 대시보드</h2>
+                <div style="margin-bottom: 20px;">
+                    <button class="nav-btn" onclick="showSubPage('sub1')">싱어</button>
+                    <button class="nav-btn" onclick="showSubPage('sub2')">칸트</button>
+                    <button class="nav-btn" onclick="showSubPage('sub3')">로크</button>
+                    <button class="nav-btn" onclick="showSubPage('sub4')">롤스</button>
+                    <button class="nav-btn" onclick="showSubPage('sub5')">홉스</button>
+                </div>
+                <div id="sub1" class="sub-page admin-content" style="display:block;"><h3>📂 싱어</h3><p>이익 평등 고려의 원칙...</p></div>
+                <div id="sub2" class="sub-page admin-content" style="display:none;"><h3>📂 칸트</h3><p>의무로부터 비롯된 행위...</p></div>
+                <div id="sub3" class="sub-page admin-content" style="display:none;"><h3>📂 로크</h3><p>생명 자유 자산...</p></div>
+                <div id="sub4" class="sub-page admin-content" style="display:none;"><h3>📂 롤스</h3><p>순수 절차적 정의...</p></div>
+                <div id="sub5" class="sub-page admin-content" style="display:none;"><h3>📂 홉스</h3><p>자연 상태...</p></div>
                 <button onclick="location.reload()" class="nav-btn active">로그아웃</button>
             </div>
         </div>
