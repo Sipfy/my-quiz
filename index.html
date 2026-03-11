@@ -147,6 +147,15 @@
         document.getElementById('nav-btn-' + pageId).classList.add('active');
     }
 
+    // [추가된 함수] 관리자 페이지 내 서브 메뉴 전환
+    function showSubPage(subId) {
+        document.querySelectorAll('.sub-page').forEach(page => {
+            page.style.display = 'none';
+        });
+        const target = document.getElementById(subId);
+        if (target) target.style.display = 'block';
+    }
+
     function selectCount(category, name) {
         tempCategory = category;
         document.getElementById('quiz-category-menu').style.display = 'none';
