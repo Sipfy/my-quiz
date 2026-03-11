@@ -12,16 +12,21 @@
         .page { display: none; }
         .page.active { display: block; }
         input { width: 70%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        
+        /* 관리자 대시보드 스타일 */
+        .admin-content { text-align: left; background: #f9f9f9; padding: 15px; border-left: 5px solid #4CAF50; white-space: pre-wrap; word-break: break-all; margin-top: 10px; }
+        
+        /* 퀴즈 옵션 버튼 */
         .option-btn { display: block; width: 100%; margin: 10px 0; padding: 12px; cursor: pointer; border: 1px solid #eee; border-radius: 8px; background: #fff; text-align: left; }
         .option-btn:hover { background: #f0f0f0; }
 
-        /* 문제 수 선택 화면 스타일 */
-        #count-select-area { display: none; padding: 20px; background: #f9f9f9; border-radius: 10px; margin-bottom: 20px; border: 2px dashed #bbb; }
+        /* 문제 수 선택 영역 */
+        #count-select-area { display: none; padding: 20px; background: #fdfdfd; border-radius: 10px; margin-bottom: 20px; border: 2px dashed #4CAF50; }
         .count-btn { padding: 10px 15px; margin: 5px; border: 1px solid #4CAF50; background: white; color: #4CAF50; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .count-btn:hover { background: #4CAF50; color: white; }
 
-        /* 해설 카드 스타일 */
-        .review-card { text-align: left; background: #ffffff; border: 1px solid #e1e4e8; border-left: 6px solid #ddd; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+        /* 결과창 해설 카드 */
+        .review-card { text-align: left; background: #ffffff; border: 1px solid #e1e4e8; border-left: 6px solid #ddd; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .exp-btn { background: #f1f3f5; border: 1px solid #dee2e6; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.85em; margin-top: 10px; }
         .explanation-box { display: none; background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 10px; border: 1px inset #eee; line-height: 1.6; font-size: 0.9em; }
     </style>
@@ -29,32 +34,33 @@
 <body>
 
 <div style="margin-top: 30px; margin-bottom: 25px; text-align: center;">
-    <img src="./images/grok-image-3aad52e0-4a17-4371-9beb-ede7233f6ce2.png" alt="내 프로필 사진" style="width: 100%; max-width: 450px; height: auto; border-radius: 8px;">
+    <img src="./images/grok-image-3aad52e0-4a17-4371-9beb-ede7233f6ce2.png" alt="내 프로필 사진" style="width: 100%; max-width: 450px; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
     <h1 style="margin-top: 18px; color: #333; font-size: 28px;">📚 생활과 윤리 독서실</h1>
 </div>
 
     <div class="nav-menu">
-        <button class="nav-btn active" onclick="showPage('quiz-page')">🎮 생윤 문항 풀이</button>
-        <button class="nav-btn" onclick="showPage('admin-page')">👨‍💻 개발자 페이지</button>
+        <button id="btn-quiz-page" class="nav-btn active" onclick="showPage('quiz-page')">🎮 생윤 문항 풀이</button>
+        <button id="btn-admin-page" class="nav-btn" onclick="showPage('admin-page')">👨‍💻 개발자 페이지</button>
     </div>
 
     <div id="quiz-page" class="page active">
         <div class="container">
             <div id="quiz-category-menu">
                 <h2>🎮 단원 선택</h2>
-                <button class="nav-btn" style="background:#4A90E2; color:white;" onclick="selectCount('part1')">윤리학의 분류</button>
-                <button class="nav-btn" style="background:#F5A623; color:white;" onclick="selectCount('part2')">동서양 윤리 문제 접근</button>
+                <button class="nav-btn" style="background:#4A90E2; color:white;" onclick="selectCount('part1', '윤리학의 분류')">윤리학의 분류</button>
+                <button class="nav-btn" style="background:#F5A623; color:white;" onclick="selectCount('part2', '동서양 윤리 접근')">동서양 윤리 접근</button>
+                <button class="nav-btn" style="background:#27AE60; color:white;" onclick="selectCount('part3', '삶과 죽음의 윤리')">삶과 죽음의 윤리</button>
                 </div>
 
             <div id="count-select-area">
-                <h3 id="selected-part-name">단원을 선택하셨습니다.</h3>
-                <p>몇 문제를 푸시겠습니까?</p>
+                <h3 id="selected-part-name">단원명</h3>
+                <p>풀어볼 문제 수를 선택하세요.</p>
                 <button class="count-btn" onclick="startQuiz(5)">5문제</button>
                 <button class="count-btn" onclick="startQuiz(10)">10문제</button>
                 <button class="count-btn" onclick="startQuiz(15)">15문제</button>
-                <button class="count-btn" onclick="startQuiz(20)">20문제 (전체)</button>
+                <button class="count-btn" onclick="startQuiz(99)">전체 풀기</button>
                 <br>
-                <button onclick="cancelSelect()" style="margin-top:15px; background:none; border:none; color:#999; text-decoration:underline; cursor:pointer;">취소하기</button>
+                <button onclick="cancelSelect()" style="margin-top:15px; background:none; border:none; color:#999; text-decoration:underline; cursor:pointer;">뒤로 가기</button>
             </div>
 
             <div id="quiz-game-area" style="display:none;">
@@ -64,42 +70,86 @@
                 </div>
                 <div id="result-area" style="display:none;">
                     <h2>🎉 학습 결과</h2>
-                    <p id="score-text" style="font-size:24px; font-weight:bold; color:#4CAF50;"></p>
+                    <p id="score-text" style="font-size:22px; font-weight:bold; color:#4CAF50;"></p>
                     <div id="review-zone"></div>
-                    <button onclick="location.reload()" class="nav-btn active" style="margin-top:20px;">다른 단원 풀기</button>
+                    <button onclick="location.reload()" class="nav-btn active" style="margin-top:20px;">메뉴로 돌아가기</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="admin-page" class="page">...</div>
+    <div id="admin-page" class="page">
+        <div class="container">
+            <div id="admin-login">
+                <h2>🔒 관리자 인증</h2>
+                <input type="text" id="adminId" placeholder="아이디"><br>
+                <input type="password" id="adminPw" placeholder="비밀번호"><br>
+                <button class="nav-btn active" onclick="unlockAdmin()">인증하기</button>
+            </div>
+
+            <div id="admin-data" style="display:none;">
+                <h2>📜 개발자 전용 대시보드</h2>
+                <div style="margin-bottom: 20px;">
+                    <button class="nav-btn" onclick="showSubPage('sub1')">싱어</button>
+                    <button class="nav-btn" onclick="showSubPage('sub2')">칸트</button>
+                    <button class="nav-btn" onclick="showSubPage('sub3')">롤스</button>
+                </div>
+                <div id="sub1" class="sub-page admin-content" style="display:block;"><h3>📂 싱어</h3><p>이익 평등 고려의 원칙...</p></div>
+                <div id="sub2" class="sub-page admin-content" style="display:none;"><h3>📂 칸트</h3><p>정언 명령과 의무...</p></div>
+                <div id="sub3" class="sub-page admin-content" style="display:none;"><h3>📂 롤스</h3><p>무지의 베일과 정의론...</p></div>
+                <button onclick="location.reload()" style="margin-top:20px; background:#666; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">로그아웃</button>
+            </div>
+        </div>
+    </div>
 
 <script>
+    const ADMIN_ID = "doyoon0208";
+    const ADMIN_PW = "rladlfdls0208";
+
     const allQuizzes = {
         'part1': [
-            { q: "실천 윤리학의 입장으로 적절한 것은?", a: ["답1", "답2", "답3", "정답"], cor: 3, info: "해설내용..." },
-            // 여기에 문제를 20개까지 쭉 넣으시면 됩니다.
+            { q: "실천 윤리학의 특징은?", a: ["가", "나", "다", "정답"], cor: 3, info: "실천 윤리학 해설입니다." },
+            // 여기에 문제를 20개까지 추가하세요
         ],
-        'part2': [ /* ... */ ]
+        'part2': [{ q: "동서양 윤리 문항입니다.", a: ["답1", "답2"], cor: 0, info: "해설내용" }]
     };
 
-    let tempCategory = ""; // 잠시 카테고리를 저장할 변수
+    let tempCategory = "";
     let selectedQuiz = []; 
     let currentIdx = 0;
     let score = 0;
     let quizHistory = [];
 
+    // 페이지 전환 (탭 이동)
     function showPage(pageId) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
+        document.getElementById('btn-' + pageId).classList.add('active');
     }
 
-    // [추가] 단원을 먼저 고르고 문제 수를 묻는 단계
-    function selectCount(category) {
+    // 관리자 서브페이지 전환
+    function showSubPage(subId) {
+        document.querySelectorAll('.sub-page').forEach(page => page.style.display = 'none');
+        document.getElementById(subId).style.display = 'block';
+    }
+
+    // 관리자 로그인
+    function unlockAdmin() {
+        const id = document.getElementById("adminId").value;
+        const pw = document.getElementById("adminPw").value;
+        if (id === ADMIN_ID && pw === ADMIN_PW) {
+            document.getElementById("admin-login").style.display = "none";
+            document.getElementById("admin-data").style.display = "block";
+        } else { alert("권한이 없습니다."); }
+    }
+
+    // 문제 수 선택 단계로 진입
+    function selectCount(category, name) {
         tempCategory = category;
         document.getElementById('quiz-category-menu').style.display = 'none';
         document.getElementById('count-select-area').style.display = 'block';
-        document.getElementById('selected-part-name').innerText = `[${category}] 선택 완료`;
+        document.getElementById('selected-part-name').innerText = `📂 ${name}`;
     }
 
     function cancelSelect() {
@@ -107,19 +157,15 @@
         document.getElementById('count-select-area').style.display = 'none';
     }
 
-    // [수정] 사용자가 선택한 숫자만큼만 문제를 자름
+    // 퀴즈 시작 (개수 제한 적용)
     function startQuiz(count) {
         let rawData = allQuizzes[tempCategory] || [];
         if (rawData.length === 0) { alert("문제가 없습니다."); return; }
         
-        // 1. 전체 문제를 랜덤하게 섞음
         let shuffled = [...rawData].sort(() => Math.random() - 0.5);
-        
-        // 2. 사용자가 선택한 개수만큼만 자름 (데이터보다 요청수가 많으면 전체 출력)
-        selectedQuiz = shuffled.slice(0, count);
+        selectedQuiz = shuffled.slice(0, count); // 선택한 숫자만큼만 가져옴
         
         currentIdx = 0; score = 0; quizHistory = [];
-
         document.getElementById('count-select-area').style.display = 'none';
         document.getElementById('quiz-game-area').style.display = 'block';
         document.getElementById("quiz-area").style.display = "block";
@@ -142,8 +188,8 @@
                 const isCorrect = (i === data.cor);
                 if(isCorrect) score++;
                 quizHistory.push({
-                    question: data.q, userChoice: opt, correctAnswer: data.a[data.cor],
-                    explanation: data.info || "해설이 없습니다.", isCorrect: isCorrect
+                    q: data.q, user: opt, correct: data.a[data.cor],
+                    info: data.info || "해설이 등록되지 않았습니다.", isCorrect: isCorrect
                 });
                 currentIdx++;
                 if(currentIdx < selectedQuiz.length) loadQuiz();
@@ -158,27 +204,12 @@
         document.getElementById("result-area").style.display = "block";
         document.getElementById("score-text").innerText = `${selectedQuiz.length}문제 중 ${score}개 정답!`;
 
-        let reviewHtml = "<h3 style='margin-top:30px;'>📖 전체 문항 해설</h3>";
+        let reviewHtml = "<h3 style='margin-top:30px;'>📋 전 문항 결과 및 해설</h3>";
         quizHistory.forEach((item, idx) => {
             const borderColor = item.isCorrect ? "#2ecc71" : "#ff5252";
+            const icon = item.isCorrect ? "✅" : "❌";
             reviewHtml += `
                 <div class="review-card" style="border-left-color: ${borderColor}">
-                    <div><b>${idx + 1}. ${item.question}</b></div>
+                    <div><b>${idx+1}. ${icon} ${item.q}</b></div>
                     <div style="margin-top:8px; font-size: 0.9em;">
-                        <span style="color:${item.isCorrect ? '#2ecc71' : '#ff5252'}">나의 답: ${item.userChoice}</span> | 
-                        <span style="color:#4CAF50;">정답: ${item.correctAnswer}</span>
-                    </div>
-                    <button class="exp-btn" onclick="toggleExp(${idx})">🔽 해설 보기</button>
-                    <div id="exp-${idx}" class="explanation-box"><b>💡 해설:</b><br>${item.explanation}</div>
-                </div>`;
-        });
-        document.getElementById("review-zone").innerHTML = reviewHtml;
-    }
-
-    function toggleExp(idx) {
-        const box = document.getElementById(`exp-${idx}`);
-        box.style.display = (box.style.display === "block") ? "none" : "block";
-    }
-</script>
-</body>
-</html>
+                        <span style="color:${
