@@ -12,29 +12,30 @@
         .page { display: none; }
         .page.active { display: block; }
         input { width: 70%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
-        .admin-content { text-align: left; background: #f9f9f9; padding: 15px; border-left: 5px solid #4CAF50; white-space: pre-wrap; word-break: break-all; }
         .option-btn { display: block; width: 100%; margin: 10px 0; padding: 12px; cursor: pointer; border: 1px solid #eee; border-radius: 8px; background: #fff; text-align: left; }
         .option-btn:hover { background: #f0f0f0; }
 
-        /* 오답 및 전체 해설 카드 스타일 */
+        /* 문제 수 선택 영역 */
+        #count-select-area { display: none; padding: 20px; background: #fdfdfd; border-radius: 10px; margin-bottom: 20px; border: 2px dashed #4CAF50; }
+        .count-btn { padding: 10px 15px; margin: 5px; border: 1px solid #4CAF50; background: white; color: #4CAF50; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .count-btn:hover { background: #4CAF50; color: white; }
+
+        /* 해설 카드 스타일 */
         .review-card { text-align: left; background: #ffffff; border: 1px solid #e1e4e8; border-left: 6px solid #ddd; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .exp-btn { background: #f1f3f5; border: 1px solid #dee2e6; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.85em; margin-top: 10px; transition: 0.2s; }
-        .exp-btn:hover { background: #e9ecef; }
         .explanation-box { display: none; background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 10px; border: 1px inset #eee; line-height: 1.6; font-size: 0.9em; color: #444; }
     </style>
 </head>
 <body>
 
 <div style="margin-top: 30px; margin-bottom: 25px; text-align: center;">
-    <img src="./images/grok-image-3aad52e0-4a17-4371-9beb-ede7233f6ce2.png" 
-         alt="내 프로필 사진" 
-         style="width: 100%; max-width: 450px; height: auto; object-fit: contain; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+    <img src="./images/grok-image-3aad52e0-4a17-4371-9beb-ede7233f6ce2.png" alt="내 프로필 사진" style="width: 100%; max-width: 450px; height: auto; border-radius: 8px;">
     <h1 style="margin-top: 18px; color: #333; font-size: 28px;">📚 생활과 윤리 독서실</h1>
 </div>
 
     <div class="nav-menu">
-        <button class="nav-btn active" onclick="showPage('quiz-page')">🎮 생윤 문항 풀이</button>
-        <button class="nav-btn" onclick="showPage('admin-page')">👨‍💻 개발자 페이지</button>
+        <button id="nav-btn-quiz" class="nav-btn active" onclick="showPage('quiz-page')">🎮 생윤 문항 풀이</button>
+        <button id="nav-btn-admin" class="nav-btn" onclick="showPage('admin-page')">👨‍💻 개발자 페이지</button>
     </div>
 
     <div id="quiz-page" class="page active">
@@ -42,20 +43,19 @@
             <div id="quiz-category-menu">
                 <h2>🎮 단원 선택</h2>
                 <p style="color:#666; font-size:0.9em;">2021~2026학년도 평가원 기출문항 + EBS 우수 문항</p>
-                <button class="nav-btn" style="background:#4A90E2; color:white;" onclick="startQuiz('part1')">윤리학의 분류</button>
-                <button class="nav-btn" style="background:#F5A623; color:white;" onclick="startQuiz('part2')">동서양 윤리 문제 접근</button>
-                <button class="nav-btn" style="background:#27AE60; color:white;" onclick="startQuiz('part3')">삶과 죽음의 윤리</button>
-                <button class="nav-btn" style="background:#E91E63; color:white;" onclick="startQuiz('part4')">사랑과 성 윤리</button>
-                <button class="nav-btn" style="background:#673AB7; color:white;" onclick="startQuiz('part5')">직업 윤리</button>
-                <button class="nav-btn" style="background:#FF5722; color:white;" onclick="startQuiz('part6')">분배 정의관</button>
-                <button class="nav-btn" style="background:#795548; color:white;" onclick="startQuiz('part7')">형벌관</button>
-                <button class="nav-btn" style="background:#607D8B; color:white;" onclick="startQuiz('part8')">시민 불복종</button>
-                <button class="nav-btn" style="background:#3F51B5; color:white;" onclick="startQuiz('part9')">사회 계약설</button>
-                <button class="nav-btn" style="background:#009688; color:white;" onclick="startQuiz('part10')">과학 기술과 윤리</button>
-                <button class="nav-btn" style="background:#8BC34A; color:white;" onclick="startQuiz('part11')">자연과 윤리</button>
-                <button class="nav-btn" style="background:#9C27B0; color:white;" onclick="startQuiz('part12')">예술과 대중문화</button>
-                <button class="nav-btn" style="background:#f44336; color:white;" onclick="startQuiz('part13')">현실주의와 평화론</button>
-                <button class="nav-btn" style="background:#00BCD4; color:white;" onclick="startQuiz('part14')">해외 원조</button>
+                <button class="nav-btn" style="background:#4A90E2; color:white;" onclick="selectCount('part1', '윤리학의 분류')">윤리학의 분류</button>
+                <button class="nav-btn" style="background:#F5A623; color:white;" onclick="selectCount('part2', '동서양 윤리 문제 접근')">동서양 윤리 문제 접근</button>
+                </div>
+
+            <div id="count-select-area">
+                <h3 id="selected-part-name">단원 선택됨</h3>
+                <p>풀어볼 문제 수를 선택하세요.</p>
+                <button class="count-btn" onclick="startQuiz(5)">5문제</button>
+                <button class="count-btn" onclick="startQuiz(10)">10문제</button>
+                <button class="count-btn" onclick="startQuiz(15)">15문제</button>
+                <button class="count-btn" onclick="startQuiz(99)">전체 풀기</button>
+                <br>
+                <button onclick="cancelSelect()" style="margin-top:15px; background:none; border:none; color:#999; text-decoration:underline; cursor:pointer;">뒤로 가기</button>
             </div>
 
             <div id="quiz-game-area" style="display:none;">
@@ -66,7 +66,8 @@
                 <div id="result-area" style="display:none;">
                     <h2>🎉 학습 결과</h2>
                     <p id="score-text" style="font-size:24px; font-weight:bold; color:#4CAF50;"></p>
-                    <div id="review-zone"></div> <button onclick="location.reload()" class="nav-btn active" style="margin-top:20px;">다른 단원 풀기</button>
+                    <div id="review-zone"></div>
+                    <button onclick="location.reload()" class="nav-btn active" style="margin-top:20px;">메뉴로 가기</button>
                 </div>
             </div>
         </div>
@@ -80,22 +81,9 @@
                 <input type="password" id="adminPw" placeholder="Password"><br>
                 <button class="nav-btn active" onclick="unlockAdmin()">Enter</button>
             </div>
-
             <div id="admin-data" style="display:none;">
                 <h2>📜 개발자 전용 대시보드</h2>
-                <div style="margin-bottom: 20px;">
-                    <button class="nav-btn" onclick="showSubPage('sub1')">싱어</button>
-                    <button class="nav-btn" onclick="showSubPage('sub2')">칸트</button>
-                    <button class="nav-btn" onclick="showSubPage('sub3')">로크</button>
-                    <button class="nav-btn" onclick="showSubPage('sub4')">롤스</button>
-                    <button class="nav-btn" onclick="showSubPage('sub5')">홉스</button>
-                </div>
-                <div id="sub1" class="sub-page admin-content" style="display:block;"><h3>📂 싱어</h3><p>이익 평등 고려의 원칙...</p></div>
-                <div id="sub2" class="sub-page admin-content" style="display:none;"><h3>📂 칸트</h3><p>의무로부터 비롯된 행위...</p></div>
-                <div id="sub3" class="sub-page admin-content" style="display:none;"><h3>📂 로크</h3><p>생명 자유 자산...</p></div>
-                <div id="sub4" class="sub-page admin-content" style="display:none;"><h3>📂 롤스</h3><p>순수 절차적 정의...</p></div>
-                <div id="sub5" class="sub-page admin-content" style="display:none;"><h3>📂 홉스</h3><p>자연 상태...</p></div>
-                <button onclick="location.reload()" style="margin-top:20px; background:#666; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">로그아웃</button>
+                <button onclick="location.reload()" class="nav-btn active">로그아웃</button>
             </div>
         </div>
     </div>
@@ -104,62 +92,58 @@
     const ADMIN_ID = "doyoon0208";
     const ADMIN_PW = "rladlfdls0208";
 
-    // 퀴즈 데이터 (info 항목에 해설을 적으세요)
     const allQuizzes = {
         'part1': [
-            { q: "실천 윤리학의 입장으로 가장 적절한 것은? (2021_06)", a: ["윤리학의 핵심 과제는 도덕적 추리와 논증 방법의 연구이다.", "윤리학의 핵심 과제는 도덕적 관행에 대한 인과적 서술이다.", "윤리학의 핵심 과제는 경험적 관행에 대한 연구를 통한 도덕성의 검증이다.", "윤리학의 핵심 과제는 삶의 구체적인 도덕 문제의 해결이다."], cor: 3, info: "해설 생략" },
-            { q: "기술 윤리학의 입장으로 가장 적절한 것은? (2021_09)", a: ["보편적 도덕 원리를 현실의 개별 상황에 적용해야 한다.", "도덕 규칙이나 평가의 표준이 되는 원리를 정립해야 한다.", "도덕 언어의 의미와 도덕 추론의 타당성을 검증해야 한다.", "도덕 관행의 발생 과정을 객관적으로 설명해야 한다."], cor: 3, info: "해설 생략" }
-            { q: "메타 윤리학의 입장에서 실천 윤리학에게 할 수 있는 적절한 비판은? (2021_수능)", a: ["도덕 문제 해결보다 도덕 논증의 타당성 분석이 중요함을 간과한다. ", "도덕 문제 탐구에 사회, 자연 과학적 지식이 필요함을 간과한다.", "도덕 현상은 과학적으로 기술해야 할 사실의 집합이 아님을 간과한다.", "도덕 이론의 연구만으로는 삶의 구체적 문제 해결에 한계가 있음을 간과한다."], cor: 0, info: "해설 생략" }
-            { q: "규범 윤리학의 입장에서 기술 윤리학에게 할 수 있는 적절한 비판은? (2022_06)", a: ["도덕적 관습을 실증적으로 연구해야 함을 간과한다.", " 가치 판단을 위해 도덕 이론을 정립해야 함을 간과한다.", "윤리학이 하나의 학문으로서 성립 가능한지 검토해야 함을 간과한다.", "도덕 언어의 의미 분석을 핵심 과제로 삼아야 한다"], cor: 1, info: "해설 생략" }
-            { q: "실천, 메타, 이론 윤리학에 대한 설명으로 옳지 않은 것은? (2022_09)", a: ["실천 윤리학의 목적은 도덕 현상의 인과 관계를 기술하는 것이다.", "실천 윤리학은 현실의 윤리 문제 해결을 위해 이론 윤리학을 필요로 한다.", "메타 윤리학은 윤리학이 학문적으로 성립 가능한지 검증하고자 한다.", "이론 윤리학은 윤리 이론을 정립할 때 메타 윤리학의 연구 결과를 활용할 수 있다."], cor: 0, info: "해설 생략" }
-            { q: "실천 윤리학의 입장에서 메타 윤리학에게 할 수 있는 적절한 비판은? (2022_수능)", a: ["윤리학의 학문적 성립 가능성에 대한 탐구를 간과한다.", " 도덕 판단의 근거가 되는 규범 체계의 필요성을 강조한다.", "현실의 도덕 문제에 윤리 이론을 응용해야 함을 간과한다.", "도덕 현상에 대한 객관적 서술과 인과 관계의 설명을 강조한다."], cor: 2, info: "해설 생략" }
-            { q: "메타, 실천 윤리학의 주된 목표로 가장 적절한 것은? (2023_06)", a: ["메타 윤리학 : 인간의 바람직한 삶의 방향을 제시하는 것이다. ", "메타 윤리학 : 도덕적 현상에 대해 객관적으로 기술하는 것이다. ", "실천 윤리학 : 윤리학이 학문으로 성립할 수 있는지 연구하는 것이다.", "실천 윤리학 : 현실의 윤리 문제에 대한 실천적 해결 방안을 모색하는 것이다."], cor: 3, info: "해설 생략" }
-            { q: "실천 윤리학의 입장에서 기술 윤리학에게 할 수 있는 적절한 비판은? (2023_09)", a: ["도덕 언어에 함축된 의미 분석이 윤리학의 주된 목적임을 간과한다", "도덕 관행의 발생 과정을 객관적으로 설명해야 함을 간과한다", "도덕 추론을 위해 어떠한 사실적 지식도 필요하지 않음을 간과한다.", " 도덕 문제를 해결하기 위해 실천적 지침을 제공해야 함을 간과한다"], cor: 3, info: "해설 생략" }
-            { q: "실천 윤리학의 입장에서 기술 윤리학에게 할 수 있는 적절한 비판은? (2023_수능)", a: ["도덕적 담론의 논증 구조에 대한 논리적 분석을 강조한다.", "도덕 판단의 표준에 대한 체계적인 이론의 정립을 강조한다.", "도덕적으로 바람직한 삶의 이상에 대한 규범적 탐구를 간과한다.", "도덕적 딜레마 해결을 위해 타 학문과의 학제적 연구를 강조한다."], cor: 2, info: "해설 생략" }
-            { q: "규범 윤리학의 입장에서 기술 윤리학에게 할 수 있는 적절한 비판은? (2024_06)", a: ["도덕적 담론에서 논리적 추론의 타당성 검증을 강조한다.", "도덕적 진술을 구성하는 도덕적 언어의 의미 분석을 강조한다.", "올바른 행위 지침을 제공하는 규범적 탐구의 중요성을 간과한다.", "윤리학의 학문적 성립 가능성에 대한 비판적 검토를 강조한다"], cor: 2, info: "해설 생략" }
-            { q: "메타, 실천 윤리학의 핵심 과제로 가장 적절한 것은? (2024_09)", a: ["메타 윤리학 : 도덕 현상을 가치 평가 없이 객관적으로 서술하는 것이다.", "메타 윤리학 : 도덕적 행위의 근거가 되는 도덕 원리를 정립하는 것이다.", "실천 윤리학 : 윤리학의 학문적 성립 가능성을 논리적으로 탐구하는 것이다.", "실천 윤리학 : 구체적인 윤리 문제에 대한 해결 방안을 모색하는 것이다."], cor: 3, info: "해설 생략" }
-            { q: "이론, 메타 윤리학의 핵심 과제로 가장 적절한 것은? (2024_수능)", a: ["이론 윤리학 : 도덕적 삶의 지침이 되는 보편적 원리를 제시하는 것이다.", "이론 윤리학 : 도덕 현상 간의 인과 관계를 가치중립적으로 설명하는 것이다.", "메타 윤리학 : 학제적 연구 방법으로 실생활의 도덕 문제를 해결하는 것이다.", "메타 윤리학 : 각 사회의 다양한 도덕적 관습을 객관적으로 기술하는 것이다"], cor: 10, info: "해설 생략" }
-
+            { q: "실천 윤리학의 입장으로 가장 적절한 것은? (2021_06)", a: ["윤리학의 핵심 과제는 도덕적 추리와 논증 방법의 연구이다.", "윤리학의 핵심 과제는 도덕적 관행에 대한 인과적 서술이다.", "윤리학의 핵심 과제는 경험적 관행에 대한 연구를 통한 도덕성의 검증이다.", "윤리학의 핵심 과제는 삶의 구체적인 도덕 문제의 해결이다."], cor: 3, info: "실천 윤리학은 이론을 응용하여 현실 문제를 해결하는 것이 핵심입니다." },
+            { q: "기술 윤리학의 입장으로 가장 적절한 것은? (2021_09)", a: ["보편적 도덕 원리를 현실의 개별 상황에 적용해야 한다.", "도덕 규칙이나 평가의 표준이 되는 원리를 정립해야 한다.", "도덕 언어의 의미와 도덕 추론의 타당성을 검증해야 한다.", "도덕 관행의 발생 과정을 객관적으로 설명해야 한다."], cor: 3, info: "기술 윤리학은 도덕 현상을 가치중립적으로 기술하고 인과관계를 설명합니다." },
+            { q: "메타 윤리학의 입장에서 실천 윤리학에게 할 수 있는 적절한 비판은? (2021_수능)", a: ["도덕 문제 해결보다 도덕 논증의 타당성 분석이 중요함을 간과한다.", "도덕 문제 탐구에 사회, 자연 과학적 지식이 필요함을 간과한다.", "도덕 현상은 과학적으로 기술해야 할 사실의 집합이 아님을 간과한다.", "도덕 이론의 연구만으로는 삶의 구체적 문제 해결에 한계가 있음을 간과한다."], cor: 0, info: "메타 윤리학은 윤리학이 학문적으로 성립 가능한지를 따지는 학문입니다." },
+            { q: "규범 윤리학의 입장에서 기술 윤리학에게 할 수 있는 적절한 비판은? (2022_06)", a: ["도덕적 관습을 실증적으로 연구해야 함을 간과한다.", "가치 판단을 위해 도덕 이론을 정립해야 함을 간과한다.", "윤리학이 하나의 학문으로서 성립 가능한지 검토해야 함을 간과한다.", "도덕 언어의 의미 분석을 핵심 과제로 삼아야 한다"], cor: 1, info: "규범 윤리학은 도덕 원리를 세워 행위의 지침을 제공하고자 합니다." },
+            { q: "실천, 메타, 이론 윤리학에 대한 설명으로 옳지 않은 것은? (2022_09)", a: ["실천 윤리학의 목적은 도덕 현상의 인과 관계를 기술하는 것이다.", "실천 윤리학은 현실의 윤리 문제 해결을 위해 이론 윤리학을 필요로 한다.", "메타 윤리학은 윤리학이 학문적으로 성립 가능한지 검증하고자 한다.", "이론 윤리학은 윤리 이론을 정립할 때 메타 윤리학의 연구 결과를 활용할 수 있다."], cor: 0, info: "도덕 현상의 인과 관계 기술은 기술 윤리학의 특징입니다." },
+            { q: "실천 윤리학의 입장에서 메타 윤리학에게 할 수 있는 적절한 비판은? (2022_수능)", a: ["윤리학의 학문적 성립 가능성에 대한 탐구를 간과한다.", "도덕 판단의 근거가 되는 규범 체계의 필요성을 강조한다.", "현실의 도덕 문제에 윤리 이론을 응용해야 함을 간과한다.", "도덕 현상에 대한 객관적 서술과 인과 관계의 설명을 강조한다."], cor: 2, info: "실천 윤리학은 현실 문제의 해결(응용)을 강조합니다." },
+            { q: "메타, 실천 윤리학의 주된 목표로 가장 적절한 것은? (2023_06)", a: ["메타 윤리학 : 인간의 바람직한 삶의 방향을 제시하는 것이다. ", "메타 윤리학 : 도덕적 현상에 대해 객관적으로 기술하는 것이다. ", "실천 윤리학 : 윤리학이 학문으로 성립할 수 있는지 연구하는 것이다.", "실천 윤리학 : 현실의 윤리 문제에 대한 실천적 해결 방안을 모색하는 것이다."], cor: 3, info: "실천 윤리학은 현실 문제의 실천적 해결을 목표로 합니다." },
+            { q: "실천 윤리학의 입장에서 기술 윤리학에게 할 수 있는 적절한 비판은? (2023_09)", a: ["도덕 언어에 함축된 의미 분석이 윤리학의 주된 목적임을 간과한다", "도덕 관행의 발생 과정을 객관적으로 설명해야 함을 간과한다", "도덕 추론을 위해 어떠한 사실적 지식도 필요하지 않음을 간과한다.", "도덕 문제를 해결하기 위해 실천적 지침을 제공해야 함을 간과한다"], cor: 3, info: "기술 윤리학은 사실을 기술할 뿐 가치 판단이나 지침 제공에 소홀할 수 있습니다." },
+            { q: "실천 윤리학의 입장에서 기술 윤리학에게 할 수 있는 적절한 비판은? (2023_수능)", a: ["도덕적 담론의 논증 구조에 대한 논리적 분석을 강조한다.", "도덕 판단의 표준에 대한 체계적인 이론의 정립을 강조한다.", "도덕적으로 바람직한 삶의 이상에 대한 규범적 탐구를 간과한다.", "도덕적 딜레마 해결을 위해 타 학문과의 학제적 연구를 강조한다."], cor: 2, info: "기술 윤리학은 규범적 탐구(무엇이 옳은가)를 하지 않습니다." },
+            { q: "규범 윤리학의 입장에서 기술 윤리학에게 할 수 있는 적절한 비판은? (2024_06)", a: ["도덕적 담론에서 논리적 추론의 타당성 검증을 강조한다.", "도덕적 진술을 구성하는 도덕적 언어의 의미 분석을 강조한다.", "올바른 행위 지침을 제공하는 규범적 탐구의 중요성을 간과한다.", "윤리학의 학문적 성립 가능성에 대한 비판적 검토를 강조한다"], cor: 2, info: "규범 윤리학은 행위의 지침을 제공하는 역할을 합니다." },
+            { q: "메타, 실천 윤리학의 핵심 과제로 가장 적절한 것은? (2024_09)", a: ["메타 윤리학 : 도덕 현상을 가치 평가 없이 객관적으로 서술하는 것이다.", "메타 윤리학 : 도덕적 행위의 근거가 되는 도덕 원리를 정립하는 것이다.", "실천 윤리학 : 윤리학의 학문적 성립 가능성을 논리적으로 탐구하는 것이다.", "실천 윤리학 : 구체적인 윤리 문제에 대한 해결 방안을 모색하는 것이다."], cor: 3, info: "실천 윤리학은 구체적 문제 해결 방안을 모색합니다." },
+            { q: "이론, 메타 윤리학의 핵심 과제로 가장 적절한 것은? (2024_수능)", a: ["이론 윤리학 : 도덕적 삶의 지침이 되는 보편적 원리를 제시하는 것이다.", "이론 윤리학 : 도덕 현상 간의 인과 관계를 가치중립적으로 설명하는 것이다.", "메타 윤리학 : 학제적 연구 방법으로 실생활의 도덕 문제를 해결하는 것이다.", "메타 윤리학 : 각 사회의 다양한 도덕적 관습을 객관적으로 기술하는 것이다"], cor: 0, info: "이론 윤리학은 보편적 도덕 원리를 정립하는 것을 목표로 합니다." }
         ],
-        'part2': [{ q: "동서양 윤리 문제 접근 예시 문항", a: ["정답", "오답1", "오답2"], cor: 0, info: "여기에 해설을 작성하세요." }],
-        // ... 나머지 part들도 위 형식처럼 q, a, cor, info를 채우시면 됩니다.
+        'part2': [{ q: "동서양 윤리 문제 접근 원본 문항", a: ["정답", "오답"], cor: 0, info: "해설" }]
     };
 
+    let tempCategory = "";
     let selectedQuiz = []; 
     let currentIdx = 0;
     let score = 0;
-    let quizHistory = []; // 풀이 기록을 담을 배열
+    let quizHistory = [];
 
     function showPage(pageId) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
-        if(event && event.currentTarget) event.currentTarget.classList.add('active');
+        document.getElementById('nav-btn-' + pageId).classList.add('active');
     }
 
-    function showSubPage(subId) {
-        document.querySelectorAll('.sub-page').forEach(page => page.style.display = 'none');
-        document.getElementById(subId).style.display = 'block';
-    }
-
-    function unlockAdmin() {
-        const idInput = document.getElementById("adminId").value;
-        const pwInput = document.getElementById("adminPw").value;
-        if (idInput === ADMIN_ID && pwInput === ADMIN_PW) {
-            document.getElementById("admin-login").style.display = "none";
-            document.getElementById("admin-data").style.display = "block";
-        } else { alert("인증 실패!"); }
-    }
-
-    function startQuiz(category) {
-        let rawData = allQuizzes[category] || [];
-        if (rawData.length === 0) { alert("문제가 준비 중입니다."); return; }
-        
-        // 문제 랜덤 셔플
-        selectedQuiz = [...rawData].sort(() => Math.random() - 0.5);
-        currentIdx = 0; score = 0; quizHistory = [];
-
+    function selectCount(category, name) {
+        tempCategory = category;
         document.getElementById('quiz-category-menu').style.display = 'none';
+        document.getElementById('count-select-area').style.display = 'block';
+        document.getElementById('selected-part-name').innerText = `📂 ${name}`;
+    }
+
+    function cancelSelect() {
+        document.getElementById('quiz-category-menu').style.display = 'block';
+        document.getElementById('count-select-area').style.display = 'none';
+    }
+
+    function startQuiz(count) {
+        let rawData = allQuizzes[tempCategory] || [];
+        if (rawData.length === 0) { alert("문제가 없습니다."); return; }
+        
+        let shuffled = [...rawData].sort(() => Math.random() - 0.5);
+        selectedQuiz = shuffled.slice(0, count);
+        
+        currentIdx = 0; score = 0; quizHistory = [];
+        document.getElementById('count-select-area').style.display = 'none';
         document.getElementById('quiz-game-area').style.display = 'block';
         document.getElementById("quiz-area").style.display = "block";
         document.getElementById("result-area").style.display = "none";
@@ -180,16 +164,10 @@
             btn.onclick = () => {
                 const isCorrect = (i === data.cor);
                 if(isCorrect) score++;
-                
-                // 모든 문제의 풀이 기록 저장
                 quizHistory.push({
-                    question: data.q,
-                    userChoice: opt,
-                    correctAnswer: data.a[data.cor],
-                    explanation: data.info || "해설이 등록되지 않았습니다.",
-                    isCorrect: isCorrect
+                    q: data.q, user: opt, correct: data.a[data.cor],
+                    info: data.info || "해설 생략", isCorrect: isCorrect
                 });
-
                 currentIdx++;
                 if(currentIdx < selectedQuiz.length) loadQuiz();
                 else showResult();
@@ -203,26 +181,20 @@
         document.getElementById("result-area").style.display = "block";
         document.getElementById("score-text").innerText = `${selectedQuiz.length}문제 중 ${score}개 정답!`;
 
-        let reviewHtml = "<h3 style='margin: 30px 0 15px;'>📖 전체 문항 해설 리스트</h3>";
-        
+        let reviewHtml = "<h3 style='margin-top:30px;'>📋 전 문항 결과 및 해설</h3>";
         quizHistory.forEach((item, idx) => {
-            const borderColor = item.isCorrect ? "#2ecc71" : "#ff5252"; // 맞으면 초록, 틀리면 빨강 테두리
-            const icon = item.isCorrect ? "✅" : "❌";
-
+            const borderColor = item.isCorrect ? "#2ecc71" : "#ff5252";
             reviewHtml += `
                 <div class="review-card" style="border-left-color: ${borderColor}">
-                    <div><b>${idx + 1}. ${icon} ${item.question}</b></div>
+                    <div><b>${idx+1}. ${item.isCorrect ? '✅':'❌'} ${item.q}</b></div>
                     <div style="margin-top:8px; font-size: 0.9em;">
-                        <span style="color:${item.isCorrect ? '#2ecc71' : '#ff5252'}">나의 선택: ${item.userChoice}</span><br>
-                        <span style="color:#4CAF50;">정답: ${item.correctAnswer}</span>
+                        <span style="color:${item.isCorrect ? '#2ecc71' : '#ff5252'}">나의 답: ${item.user}</span> | 
+                        <span style="color:#4CAF50;">정답: ${item.correct}</span>
                     </div>
                     <button class="exp-btn" id="btn-${idx}" onclick="toggleExp(${idx})">🔽 해설 보기</button>
-                    <div id="exp-${idx}" class="explanation-box">
-                        <b>💡 해설:</b><br>${item.explanation}
-                    </div>
+                    <div id="exp-${idx}" class="explanation-box"><b>💡 해설:</b><br>${item.info}</div>
                 </div>`;
         });
-        
         document.getElementById("review-zone").innerHTML = reviewHtml;
     }
 
@@ -236,6 +208,15 @@
             box.style.display = "none";
             btn.innerText = "🔽 해설 보기";
         }
+    }
+
+    function unlockAdmin() {
+        const id = document.getElementById("adminId").value;
+        const pw = document.getElementById("adminPw").value;
+        if (id === ADMIN_ID && pw === ADMIN_PW) {
+            document.getElementById("admin-login").style.display = "none";
+            document.getElementById("admin-data").style.display = "block";
+        } else { alert("인증 실패!"); }
     }
 </script>
 </body>
