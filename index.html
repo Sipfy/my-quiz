@@ -15,9 +15,15 @@
         .admin-content { text-align: left; background: #f9f9f9; padding: 15px; border-left: 5px solid #4CAF50; white-space: pre-wrap; word-break: break-all; }
         .option-btn { display: block; width: 100%; margin: 10px 0; padding: 12px; cursor: pointer; border: 1px solid #eee; border-radius: 8px; background: #fff; }
         .option-btn:hover { background: #f0f0f0; }
+
+        /* 오답 노트 및 해설 버튼 스타일 추가 */
+        .review-card { text-align: left; background: #ffffff; border: 1px solid #e1e4e8; border-left: 6px solid #ff5252; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .exp-btn { background: #f1f3f5; border: 1px solid #dee2e6; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9em; margin-top: 10px; }
+        .explanation-box { display: none; background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 10px; border: 1px inset #eee; line-height: 1.6; font-size: 0.95em; }
     </style>
 </head>
 <body>
+
 <div style="margin-top: 30px; margin-bottom: 25px; text-align: center;">
     <img src="./images/grok-image-3aad52e0-4a17-4371-9beb-ede7233f6ce2.png" 
          alt="내 프로필 사진" 
@@ -50,7 +56,6 @@
                 <button class="nav-btn" style="background:#9C27B0; color:white;" onclick="startQuiz('part12')">예술과 대중문화 윤리</button>
                 <button class="nav-btn" style="background:#f44336; color:white;" onclick="startQuiz('part13')">현실주의와 평화론</button>
                 <button class="nav-btn" style="background:#00BCD4; color:white;" onclick="startQuiz('part14')">해외 원조</button>
-                
             </div>
 
             <div id="quiz-game-area" style="display:none;">
@@ -61,7 +66,7 @@
                 <div id="result-area" style="display:none;">
                     <h2>🎉 결과</h2>
                     <p id="score-text" style="font-size:24px; font-weight:bold;"></p>
-                    <button onclick="location.reload()" class="nav-btn active">카테고리로 돌아가기</button>
+                    <div id="review-zone"></div> <button onclick="location.reload()" class="nav-btn active">카테고리로 돌아가기</button>
                 </div>
             </div>
         </div>
@@ -75,7 +80,6 @@
                 <input type="password" id="adminPw" placeholder="비밀번호"><br>
                 <button class="nav-btn active" onclick="unlockAdmin()">확인</button>
             </div>
-
             <div id="admin-data" style="display:none;">
                 <h2>📜 개발자 전용 대시보드</h2>
                 <div style="margin-bottom: 20px;">
@@ -85,82 +89,33 @@
                     <button class="nav-btn" onclick="showSubPage('sub4')">롤스</button>
                     <button class="nav-btn" onclick="showSubPage('sub5')">홉스</button>
                 </div>
-
-                <div id="sub1" class="sub-page admin-content" style="display:block;">
-                    <h3>📂 싱어 말과 아이의 비유</h3>
-                    <p>싱어는 이익 평등 고려의 원칙에 따라 동물의 고통도 인간과 동일한 기준으로 고려해야 한다고 주장합니다...</p>
-                </div>
+                <div id="sub1" class="sub-page admin-content" style="display:block;"><h3>📂 싱어</h3><p>이익 평등 고려의 원칙...</p></div>
                 <div id="sub2" class="sub-page admin-content" style="display:none;"><h3>📂 칸트</h3><p>의무로부터 비롯된 행위...</p></div>
-                <div id="sub3" class="sub-page admin-content" style="display:none;"><h3>📂 로크</h3><p>생명 자유 자산의 권리는 양도하지 않는다...</p></div>
+                <div id="sub3" class="sub-page admin-content" style="display:none;"><h3>📂 로크</h3><p>생명 자유 자산...</p></div>
                 <div id="sub4" class="sub-page admin-content" style="display:none;"><h3>📂 롤스</h3><p>순수 절차적 정의...</p></div>
-                <div id="sub5" class="sub-page admin-content" style="display:none;"><h3>📂 홉스</h3><p>자연 상태에서 자연법 인식...</p></div>
-
+                <div id="sub5" class="sub-page admin-content" style="display:none;"><h3>📂 홉스</h3><p>자연 상태...</p></div>
                 <button onclick="location.reload()" style="margin-top:20px; background:#666; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">로그아웃</button>
             </div>
         </div>
     </div>
 
 <script>
-    // --- 설정 ---
     const ADMIN_ID = "doyoon0208";
     const ADMIN_PW = "rladlfdls0208";
 
-    // --- 카테고리별 퀴즈 데이터 ---
     const allQuizzes = {
         'part1': [
-            { q: "윤리학의 분류 <br><br> 실천 윤리학의 입장으로 가장 적절한 것은? (2021_06)", a: ["윤리학의 핵심 과제는 도덕적 추리와 논증 방법의 연구이다.", "윤리학의 핵심 과제는 도덕적 관행에 대한 인과적 서술이다.", "윤리학의 핵심 과제는 경험적 관행에 대한 연구를 통한 도덕성의 검증이다.", "윤리학의 핵심 과제는 삶의 구체적인 도덕 문제의 해결이다."], cor: 3 },
-            { q: "윤리학의 분류 <br><br> 기술 윤리학의 입장으로 가장 적절한 것은? (2021_09)", a: ["보편적 도덕 원리를 현실의 개별 상황에 적용해야 한다.", "도덕 규칙이나 평가의 표준이 되는 원리를 정립해야 한다.", "도덕 언어의 의미와 도덕 추론의 타당성을 검증해야 한다.", "도덕 관행의 발생 과정을 객관적으로 설명해야 한다."], cor: 3 }
+            { q: "실천 윤리학의 입장으로 가장 적절한 것은? (2021_06)", a: ["윤리학의 핵심 과제는 도덕적 추리와 논증 방법의 연구이다.", "윤리학의 핵심 과제는 도덕적 관행에 대한 인과적 서술이다.", "윤리학의 핵심 과제는 경험적 관행에 대한 연구를 통한 도덕성의 검증이다.", "윤리학의 핵심 과제는 삶의 구체적인 도덕 문제의 해결이다."], cor: 3, info: "실천 윤리학은 이론을 토대로 구체적 윤리 문제를 해결하는 데 중점을 둡니다." },
+            { q: "기술 윤리학의 입장으로 가장 적절한 것은? (2021_09)", a: ["보편적 도덕 원리를 현실의 개별 상황에 적용해야 한다.", "도덕 규칙이나 평가의 표준이 되는 원리를 정립해야 한다.", "도덕 언어의 의미와 도덕 추론의 타당성을 검증해야 한다.", "도덕 관행의 발생 과정을 객관적으로 설명해야 한다."], cor: 3, info: "기술 윤리학은 특정 문화권의 도덕 관행을 가치 중립적으로 서술합니다." }
         ],
-        'part2': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        'part2': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        'part3': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        'part4': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        'part5': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        'part6': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        'part7': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        'part8': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        'part9': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        'part10': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        'part11': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        'part12': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        'part13': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        'part14': [
-            { q: "대한민국의 수도는?", a: ["서울", "부산", "인천"], cor: 0 }
-        ],
-        
+        // 다른 part들은 형식에 맞춰 채워주시면 됩니다.
     };
 
     let selectedQuiz = []; 
     let currentIdx = 0;
     let score = 0;
+    let wrongAnswers = [];
 
-    // --- 페이지/탭 전환 기능 ---
     function showPage(pageId) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -173,27 +128,28 @@
         document.getElementById(subId).style.display = 'block';
     }
 
-    // --- 로그인 기능 (수정 완료) ---
     function unlockAdmin() {
-        // 각각의 입력창에서 값을 가져옵니다.
         const idInput = document.getElementById("adminId").value;
         const pwInput = document.getElementById("adminPw").value;
-
-        // 설정된 상수(ADMIN_ID, ADMIN_PW)와 비교합니다.
         if (idInput === ADMIN_ID && pwInput === ADMIN_PW) {
             document.getElementById("admin-login").style.display = "none";
             document.getElementById("admin-data").style.display = "block";
-        } else {
-            alert("권한이 없습니다.");
-        }
+        } else { alert("권한이 없습니다."); }
     }
 
-    // --- 퀴즈 실행 로직 ---
+    // --- 문제 랜덤 섞기 기능 포함 ---
     function startQuiz(category) {
-        selectedQuiz = allQuizzes[category];
-        currentIdx = 0; score = 0;
+        let rawData = allQuizzes[category] || [];
+        if (rawData.length === 0) { alert("문제가 없습니다!"); return; }
+        
+        // 랜덤으로 섞기
+        selectedQuiz = [...rawData].sort(() => Math.random() - 0.5);
+        currentIdx = 0; score = 0; wrongAnswers = [];
+
         document.getElementById('quiz-category-menu').style.display = 'none';
         document.getElementById('quiz-game-area').style.display = 'block';
+        document.getElementById("quiz-area").style.display = "block";
+        document.getElementById("result-area").style.display = "none";
         loadQuiz();
     }
 
@@ -209,6 +165,9 @@
             btn.innerText = opt;
             btn.onclick = () => {
                 if(i === data.cor) score++;
+                else {
+                    wrongAnswers.push({ q: data.q, user: opt, correct: data.a[data.cor], info: data.info || "해설이 없습니다." });
+                }
                 currentIdx++;
                 if(currentIdx < selectedQuiz.length) loadQuiz();
                 else showResult();
@@ -217,10 +176,32 @@
         });
     }
 
+    // --- 해설 보기 기능이 포함된 결과창 ---
     function showResult() {
         document.getElementById("quiz-area").style.display = "none";
         document.getElementById("result-area").style.display = "block";
         document.getElementById("score-text").innerText = `${selectedQuiz.length}문제 중 ${score}개 정답!`;
+
+        let reviewHtml = "<h3 style='margin-top:20px;'>📝 오답 노트</h3>";
+        if(wrongAnswers.length === 0) reviewHtml += "<p>모두 맞혔습니다! 🎉</p>";
+        else {
+            wrongAnswers.forEach((item, idx) => {
+                reviewHtml += `
+                    <div class="review-card">
+                        <div><b>Q. ${item.q}</b></div>
+                        <div style="color:#ff5252; margin-top:5px;">나의 답: ${item.user}</div>
+                        <div style="color:#4CAF50;">정답: ${item.correct}</div>
+                        <button class="exp-btn" onclick="toggleExp(${idx})">🔽 해설 보기</button>
+                        <div id="exp-${idx}" class="explanation-box">${item.info}</div>
+                    </div>`;
+            });
+        }
+        document.getElementById("review-zone").innerHTML = reviewHtml;
+    }
+
+    function toggleExp(idx) {
+        const box = document.getElementById(`exp-${idx}`);
+        box.style.display = (box.style.display === "block") ? "none" : "block";
     }
 </script>
 </body>
